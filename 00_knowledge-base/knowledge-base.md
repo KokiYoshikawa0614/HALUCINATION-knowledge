@@ -147,7 +147,12 @@
 ### 制作ワークフロー
 
 1. **主人公のベース画像作成：** Midjourney V7で主人公の上半身画像を生成
+   - 原本: `01_images/workflow/01_midjourney_v7_original.png`（元: `raw-data/KaworuYagamimodel2.png`）
+   - アップスケール版: `01_images/workflow/02_midjourney_v7_upscaled.png`（元: `raw-data/KaworuYagamimodel2Upscale.png`）
 2. **リアル化：** Flux1.Kontextで Midjourney特有の芸術的な質感をリアルな写真風に変換
+   - Flux1.Kontext出力: `01_images/workflow/03_flux1_kontext_realistic.png`（元: `raw-data/KaworuYagamibase.png`）
+   - Topazアップスケール最終版: `01_images/workflow/04_flux1_kontext_topaz_upscaled.png`（元: `raw-data/KaworuYagamibase-topaz-face-upscale-4x-2.png`）
+   - 各画像の質感の違い詳細 → `01_images/workflow/character-pipeline.md`
 3. **表情バリエーション生成：** Gemini 2.5 Flash imageで主人公の横顔・様々な表情を31枚作成（複数チャットに分けて作業）
 4. **LoRA学習：** 31枚をZipにしてReplicate上のFlux1.devでLoRA学習（5回の試行で最適パラメータを調整）
 5. **シーン画像生成：** シーンごとにプロンプトで1280×720（16:9）画像を大量生成
@@ -470,6 +475,33 @@
 
 ## 追記予定項目
 
-- [ ] LoRA学習のパラメータ詳細（5回の試行の具体的な設定値）
-- [ ] 各カテゴリの細かいエピソード（画像生成・動画生成・音声等）
-- [ ] Before/After画像のファイル名または説明
+- [x] LoRA学習のパラメータ詳細（5回の試行の具体的な設定値）→ `02_prompts/replicate-params.md` に完全記録済み
+- [~] 各カテゴリの細かいエピソード（画像生成・動画生成・音声等）→ `02_prompts/` 各ファイルに主要プロンプト・設定値は記録済み。未記録：試行錯誤の具体的なエピソード（どのプロンプトがなぜ失敗したか等）
+- [~] Before/After画像のファイル名または説明 → 候補特定済み（下記）。ドキュメント化は未完了
+
+### Before/After候補ファイル一覧
+
+#### カテゴリ1：Topaz Photo AI 4 暗シーン過剰補正（事例3）
+
+| Before | After | 備考 |
+|---|---|---|
+| `raw-data/映画の準備と後処理/画像/ホラーショットの準備/ソファ笑顔候補３.png` | `ソファ笑顔候補３-topaz-sharpen-upscale-3x.png`（同ディレクトリ） | **視覚確認済み**。Before: 極暗、人物ほぼ見えない。After: 顔がプラスチック質感に。事例3の典型例 |
+| `raw-data/映画の準備と後処理/画像/立って電話夜/疲れている.png` | `疲れている-topaz-sharpen-face-upscale-3x.png`（同ディレクトリ） | 夜シーン・立ちポーズの電話シーン |
+
+#### カテゴリ2：LoRA出力 vs Topaz後処理
+
+| Before（LoRA生成Raw） | After（Topaz後処理） | 備考 |
+|---|---|---|
+| `raw-data/映画の準備と後処理/画像/ホラーショットの準備/replicate-prediction-52b5030xb5rmc0cs5tvba7q95g.png` | 同ディレクトリの `-topaz-face-upscale-4x.png` 版 | LoRA直接出力 vs 4倍アップスケール後の顔 |
+
+#### カテゴリ3：ツール比較（ChatGPT vs Flux1.dev LoRA）
+
+| ツール | ファイル | 内容 |
+|---|---|---|
+| ChatGPT (DALL-E) | `raw-data/映画の準備と後処理/画像/ホラーショットの準備/out-0.webp` | 双子キスシーン：ChatGPT生成 |
+| ChatGPT (DALL-E) | `raw-data/映画の準備と後処理/画像/ホラーショットの準備/out-0 (1).webp` | 双子キスシーン：ChatGPT生成（別バリエーション） |
+| Flux1.dev + LoRA | `raw-data/映画の準備と後処理/画像/ホラーショットの準備/replicate-prediction-*.png` | 同シーン系列のLoRA出力（複数） |
+
+#### カテゴリ4：動画生成の失敗例（未確認）
+
+`raw-data/映画の準備と後処理/動画の後処理/` 配下のmp4ファイル群に失敗テイクが含まれる可能性あり。ファイル名からは内容特定困難のため要確認。
