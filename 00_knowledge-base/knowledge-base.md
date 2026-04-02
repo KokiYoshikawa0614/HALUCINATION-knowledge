@@ -327,6 +327,60 @@
   - 感情表現は映画全体の演出として「抑制された表現」に統一
   - 立ち上がるシーン → 顔が破綻する直前でカット（未解決のまま妥協）
 
+#### 実際に使用したプロンプト例（`02_prompts/video-prompts.md` §1より）
+
+**水を飲む（#12）：**
+```
+An actor slowly drinks a glass of water, captured by a stationary camera.
+```
+→ `slowly` を追加することで動作の崩れを軽減。それでもコップの傾きと水量の不整合は残る。
+
+**咳をする（#58）：**
+```
+In a dimly lit room with constant, low-key lighting, an actor lightly coughs while covering their mouth with one hand, all captured by a stationary camera.
+```
+→ `lightly coughs`（軽い咳）に抑えた表現。激しい咳はGen-4では生成できず、Pixverse V5で補完（後述）。
+
+**立ち上がり（近接例 #10）：**
+```
+A sleeping actor awakens and slowly sits up, captured by a stationary camera.
+```
+→ 「立ち上がる」ではなく「上体を起こす」に動作を縮小して妥協。それ以上の動作は顔が破綻するためカットして対処。
+
+**感情表現：**
+
+| # | 日本語指示 | 英語プロンプト（感情部分を抜粋） |
+|---|---|---|
+| 8 | 少し困惑する表情 | `An actor's expression subtly shifts to show slight confusion` |
+| 21 | 少しだけしかめっ面 | `A Japanese actor's expression subtly forms into a slight grimace` |
+| 51 | 顔が恐怖で引き攣る | `a Japanese actor's face convulses in terror, while their body remains perfectly still` |
+| 53 | 恐怖を感じた顔 | `a Japanese actor's face is frozen in an expression of terror, their body held perfectly still` |
+
+→ すべて「`subtly`（かすかに）」「`slightly`（わずかに）」「`frozen`（固まる）」など**静止・微変化の語彙で表現**。大きな感情表現は生成不能のため、抑制演出に切り替えた。
+
+#### 「ゆっくり」指示の英語表現パターン
+
+| 日本語 | 英語表現 | 使用箇所 |
+|---|---|---|
+| ゆっくり | `slowly` | `slowly drinks`, `slowly sits up` |
+| 非常にゆっくり | `very slowly` | `very slowly zooms in on an anemone flower` |
+| 物凄くゆっくり | `extremely slowly` | `extremely slowly zooms in on a refrigerator` |
+| 煙がゆっくり動く | `smoke drifts extremely slowly` | コンピューターシミュレーション画面 |
+
+→ 動作が速いほどGen-4の破綻リスクが上がるため、「ゆっくり」指示は基本方針として全動作シーンに適用した。
+
+#### Pixverse V5 による補完対応
+
+Gen-4で咳シーンが生成できなかったため、Pixverse V5で代替生成（`02_prompts/video-prompts.md` §2）：
+
+| Pixverseバリアント | 内容 | Gen-4との違い |
+|---|---|---|
+| バリアント1 | `coughing violently and leaning forward slightly, covering mouth with one hand` | Gen-4では「手で口を塞ぐだけ」だったが、Pixverseでは前傾みの動作が出た |
+| バリアント2 | `coughing violently with one hand on the floor and leaning forward slightly` | 床に手をついて体を支える咳の動作 |
+| バリアント3 | `coughing violently with both hands on the floor and leaning forward` | 最も激しい咳き込みの表現 |
+
+→ 動きの激しい動作は**Gen-4ではなくPixverse V5に役割を分担**することで解決した。
+
 ### 事例6：LoRA導入以前の失敗 — Whisk + Gemini 2.5 Flash Image（2025年9月）
 
 - **何が起きたか：** LoRA学習の前にWhisk経由でGemini 2.5 Flash Imageを使ってキャラクター一貫性を試みたが、毎回髪型・顔が変わってしまった
