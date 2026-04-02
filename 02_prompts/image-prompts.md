@@ -207,7 +207,67 @@ A documentary-style, photorealistic upper-body shot of a Japanese man facing for
 
 ---
 
-## 8. 使用ツール別の使い分け
+## 8. Midjourney VHSスタイルプロンプト（スノーリーカム等）
+
+「プロンプトの共通項抽出」チャットで確立したVHSフィルター表現。主人公が映らない動きのあるシーンに使用。
+
+### VHSスタイル共通修飾語
+
+```
+vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr tape static, bad lines
+```
+
+> **配置原則**: VHSスタイルキーワードはプロンプト先頭に置くことで効果が強まる。
+
+### 適用シーン例
+
+```
+# スノーリーカムで全力疾走
+EXTREME vhs screengrab, HEAVILY blurry vhs filter, INTENSE vcr film grain effect, VERY grainy quality, SIGNIFICANT vcr tape static, SEVERE bad lines. SnorriCam shot from the chest up of a young Japanese man, wearing a black suit and a white open-collar shirt, running at full speed with his gaze fixed intently ahead. The shot is captured from a slightly high angle. Extreme sharp focus on his face, with a very shallow depth of field causing his shoulders and the background to be heavily blurred, in a dark, minimalistic room. The scene is nearly monochromatic in deep navy blue with very low brightness. --ar 16:9 --style raw
+
+# 目のクローズアップ（怯えた表情）
+vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr tape static, bad lines, an extreme close-up portrait of a young Japanese man with black eyes. His eyes are wide open with a scared expression. A very shallow depth of field creates a heavily blurred, indistinct background. The scene is dominated by deep navy blue and dark shadows, with minimal contrast. --ar 16:9 --style raw
+
+# ドレッサーの引き出しを開ける手元
+vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr tape static, bad lines. Cinematic close-up on a Japanese man's hands as he opens a drawer of a Scandinavian design white dresser and takes out a standard white asthma inhaler. The cuffs of his black suit and white shirt are visible. The scene is dominated by deep navy blue and dark shadows, with minimal contrast. --ar 16:9 --style raw
+
+# ドレッサーの前にひざまずく後ろ姿
+vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr tape static, bad lines. Cinematic close-up shot from behind of a young Japanese man, kneeling on both knees in front of a Scandinavian design white dresser. His back is hunched over. He is wearing a black suit and a white open-collar shirt. The scene is dominated by deep navy blue and dark shadows, with minimal contrast. --ar 16:9 --style raw
+```
+
+---
+
+## 9. LoRA表現限界テスト — 10シーンの結果（2025年制作時）
+
+過学習LoRA（v1〜v4）で演出限界を測定したテスト結果。最終的にv5再学習の判断材料となった。
+
+| # | シーン | 結果 | 評価 |
+|---|---|---|---|
+| 1 | 鏡を割り手を負傷 | 手がほとんど汚れず、鏡もほぼ割れない | ❌ |
+| 2 | 同一人物がキス | 顔の一貫性を保ちながらキス成功 | ✅ |
+| 3 | 上半身裸 | 問題なし | ✅ |
+| 4 | 同一人物が上半身裸で横たわる | 成功 | ✅ |
+| 5 | 鏡割り・血（黒）をぶちまける | ほぼ汚れなし。鏡もあまり割れない | ❌ |
+| 6 | 片方が血まみれでキス | 顔一貫性は保てるが、血がスプレーできれいに塗ったような質感で生々しさなし | △ |
+| 7 | 上半身裸・目を閉じ上を向く | ある程度成功。わずかに目が開いている | △ |
+| 8 | 上半身裸・全身血まみれ・目閉じ上向き | 目は閉じたが、黒スプレーで塗ったような質感で違和感 | △ |
+| 9 | 黒い肉の塊をソファで食べる | **汚さがあって非常にいい画像。有機的質感が成功** | ✅ |
+| 10 | 上半身裸・仰向け・真上から撮影 | 非常によく撮れている。わずかにAIっぽさあり | ✅ |
+
+**#9の成功から得た発見（黒い血表現の鍵）:**
+- ❌ `black paint`, `tar-like` → 均一できれいな塗布になる
+- ✅ `organic mass of meat`, `dried, oxidized substance`, `coagulated`, `charred`, `non-uniform` → 不均一で生々しい質感
+
+```
+# 採用した有機的テクスチャ表現
+(His face, neck, and white shirt are heavily stained with a crusted, black, organic substance, like dried, oxidized blood:1.7)
+(covered in a thick, dark, tar-like substance resembling dried, oxidized blood:1.5)
+(His entire face and upper body are caked in a dry, cracked, black substance with the texture of burnt flesh:1.7)
+```
+
+---
+
+## 10. 使用ツール別の使い分け
 
 | 用途 | ツール | 理由 |
 |---|---|---|
