@@ -321,6 +321,8 @@ Stage 3: 後処理（Topaz Photo AI 4 / DaVinci Resolve）
 
 ## 13. Whisk を用いた参照画像活用法
 
+> **注意**: `00_knowledge-base/knowledge-base.md` 事例6に記録した通り、Whiskでの顔一貫性には実用上の限界がある（複数回生成すると別人が出現する等）。**LoRAが使えない状況での次善策として参考程度に記録**しており、主人公の顔一貫性にはLoRAが必須。
+
 Google Whisk にアップロードした参照画像を使い、生成画像の顔一貫性を高める手法。
 
 - LoRAが使えないツール（Gemini Image等）で顔の一貫性を確保する代替策
