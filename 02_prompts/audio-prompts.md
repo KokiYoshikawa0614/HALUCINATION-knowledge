@@ -320,29 +320,82 @@ High-quality [主音・主アクション], [foley effect], [テクスチャ/副
 - **Duration**: 短い（3秒）〜ループ用（15秒+）
 - **Prompt Influence**: High（プロンプトへの忠実度を上げる）
 
-### 効果音別プロンプト
+### 採用プロンプト一覧
 
-#### ライターの火
-- **Prompt**: `"High-quality sound of a lighter igniting and flame flickering, foley effect, subtle crackling."`
-- **Duration**: 3秒
+#### 事件現場（火災・銃撃・群衆）
 
-#### 強烈な燃焼音（一定ボリューム・ループ用）
-- **Prompt**: `"Loud, intense burning fire sound, constant in volume, high-quality, foley effect with no fluctuations."`
-- **Duration**: 10〜15秒
+| 効果音 | プロンプト |
+|---|---|
+| ライターの点火 | `High-quality sound of a lighter igniting and flame flickering, foley effect, subtle crackling` |
+| 爆発・火事の最初の衝撃 | `Sudden dust explosion at a fire scene, deep booming blast followed by sharp debris impact, echoing shockwave with fire crackle and falling rubble` |
+| 燃焼音（ループ用） | `Loud, intense burning fire sound, constant in volume, high-quality, foley effect with no fluctuations.` |
+| ライフル銃声 | `Loud single gunshots from an AK-style rifle, one shot at a time with metallic clack and echo, sharp and powerful, realistic foley weapon fire` |
+| パニック群衆（逃走） | `Large crowd screaming in fear and fleeing in panic, chaotic voices overlapping, echoing in an open public space.` |
+| パニック群衆（火災現場・持続） | `Chaotic crowd screaming loudly in panic at the scene of a fire, voices overlapping with urgency and fear, echoing in open space, sustained for several seconds.` |
 
-#### 爆発・発砲・瓦礫
-- **Prompt**: `"Deep booming blast with sharp debris impact at a fire scene, fire crackle, falling rubble, echoing shockwave."`
-- **Duration**: 6〜10秒
+#### 喘息・呼吸
 
-#### 火の急速な広がり（シーン臨場感用）
-- **Prompt**: `"Loud, aggressive sound of fire rapidly spreading at a fire scene, intense roaring flames, crackling wood and burning debris, chaotic and immersive fire soundscape."`
-- **Duration**: 12〜15秒
+| 効果音 | プロンプト |
+|---|---|
+| 喘息の咳き込み（激しい） | `Extremely violent coughing from a Japanese man suffering an asthma attack, deep, wheezy, and explosive, gasping between coughs, realistic foley breathing.` |
+| 喘息の咳き込み（発作・苦しい） | `Severe coughing fit from a Japanese man with asthma, wheezing between coughs, strained and gasping, foley style, realistic and intense.` |
+| 喘息の咳き込み（弱め） | `Coughing sounds from a Japanese man experiencing asthma, weak and wheezy, with short gasps between coughs, realistic foley effect` |
+| 喘息の咳き込み（軽度・自然） | `A man coughing several times, mild and dry-sounding, spaced out naturally, high-quality foley` |
+| 喘息で走るときの呼吸 | `Labored breathing of a person having an asthma attack, wheezing and gasping for air, distressed and panicked, high-quality foley effect.` |
+| 吸入器を使用する音 | `Japanese man taking several deep, breaths to relax, strong inhales and slow exhales, calm and deliberate, realistic foley breathing.` |
+| 深呼吸（興奮・不安定） | `Soft, aroused breathing from a young man, mixed with occasional gentle gasps, warm and slightly unsteady.` |
+
+#### 鏡・スマートフォン
+
+| 効果音 | プロンプト |
+|---|---|
+| 鏡を素手で叩き割る | `A person repeatedly punching and hitting a large mirror, loud impacts, sharp glass stress sounds, partial cracking but not shattering, high-quality foley recording.` |
+| スマートフォンを叩き割る | `Loud, sharp sound of a smartphone screen shattering on a hard surface, high-pitched glass break with a metallic impact, realistic foley effect.` |
+| スマートフォン起動音 | `Gentle, simple smartphone startup sound, soft electronic chime with a smooth fade-in, clean and minimalistic` |
+| 電話の着信音 | `Gentle mobile ringtone, simple tones repeating steadily, ambient, low volume.` |
+
+#### 不気味・幻覚シーン
+
+| 効果音 | プロンプト |
+|---|---|
+| 子供の不気味な笑い声 | `Child's closed-mouth laughter, soft giggling without mouth movement, continuous and steady in volume.` |
+| 不快な電子音（耳鳴り系） | `Ultra-high-pitched ringing tone, piercing and constant, like tinnitus or electronic feedback, sharp and uncomfortable.` |
+| 不快な電子音（グリッチ系） | `Glitchy, distorted electronic noise, harsh and unpleasant, slowly increasing in volume from silence, futuristic ambiance.` |
+| 電子的な不快音（単純・刺激的） | `Extremely unpleasant, loud electronic tone, simple and piercing, high-pitched with harsh digital texture, single continuous sound.` |
+
+#### 日常音
+
+| 効果音 | プロンプト |
+|---|---|
+| 水道水（高圧・洗面台） | `High-pressure water gushing from a bathroom faucet, foley sound, indoor acoustic environment, steady flow.` |
+| 水道水（通常・流水） | `Running water from a modern sink, clean and steady stream, high-quality foley recording.` |
+| 家のドアベル | `Single ring of a residential doorbell, clear chime tone, high-quality foley recording.` |
+
+---
+
+### 不採用例（参考）
+
+不採用になった主な理由：音量・質感・不気味さが意図と合わなかった。
+
+| 効果音 | 不採用プロンプト | 不採用理由 |
+|---|---|---|
+| 深呼吸 | `Soft, aroused twice, breathing from a young man, mixed with occasional gentle gasps.` | "warm and slightly unsteady"がなく平坦すぎた |
+| 人を食べる音（骨） | `Bone crunching sound, dry and brittle, high-quality foley effect with sharp, cracking textures` | 乾いた骨音では肉感が出なかった |
+| 人を食べる音（肉・大きな塊） | `Loud chewing sound of a person eating a big chunk of meat, high-quality foley effect, wet and fleshy texture, consistent volume.` | "big chunk"より"big meat"の方が質感が出た |
+| 子供の笑い声（高品質foley） | `Child's closed-mouth laughter, soft giggling without mouth movement, continuous and steady in volume, high-quality foley voice effect.` | "high-quality foley"の追記で音が変わり採用版より不自然 |
+| 子供の笑い声（エコー系） | `Eerie child's laughter, high-pitched and echoing, creepy atmosphere, foley sound, horror tone.` | エコー・高音強調が過剰でホラーすぎた |
+| 金属のきしみ音 | `Incredibly unpleasant metallic screech, sharp and grating, high-pitched with harsh resonance, echoing in a confined space.` | 音が映像と合わず電子音に切り替え |
+| 喘息の呼吸（苦しい息継ぎ） | `A Japanese man with asthma breathing with difficulty, wheezing and strained, shallow inhales and gasping exhales, distressed and realistic foley breathing.` | 咳の音の方がシーンに合った |
+
+---
 
 ### ElevenLabs 音響設計の原則
 
 | 原則 | 内容 |
 |---|---|
-| 主音 + 副音の構成 | 「爆発音」+ 「瓦礫の落下」+ 「残響」で奥行きを出す |
+| 主音 + 副音の構成 | 「爆発音」+「瓦礫の落下」+「残響」で奥行きを出す |
 | 空間的文脈を加える | `at a fire scene` 等で感情的フレーミングを強化 |
 | 複数要素の順序記述 | 「点火 → 燃焼 → 燃え広がり」の時系列で記述 |
+| 誇張して指示する | 「鏡を割る」ではなく「何度も殴って叩き割る」のように過剰表現 → ちょうどいい音量になる |
+| 同系統を複数生成して重ねる | 「不協和音」は単体では弱いため、同種を複数生成してPremiere Proで重ねる |
 | DAW後処理想定 | 生成音をPremiere Pro等で重ねてシーン合成する |
