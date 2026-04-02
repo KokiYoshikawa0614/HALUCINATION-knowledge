@@ -496,13 +496,82 @@
 
 ---
 
+## 4. Premiere Pro 書き出しエラーと解決策
+
+### 問題の概要
+
+- **環境**: 4K（3840×2160, 24fps）、約40分、すべてAI生成素材
+- **エラー**: H.264 (.mp4) 書き出し時に「ムービーのコンパイル中にエラーが発生しました（エラーコード: 3）」が特定タイムコードで必ず発生
+- **初回エラー地点**: `00:21:28:12`
+
+### 試みたが解決しなかった対策
+
+1. ディスク空き容量を約98GBに確保（30GB→98GB）
+2. GPUレンダラー→ソフトウェアレンダラーへの変更（設定がグレーアウトして変更不可）
+3. レンダーファイル削除・環境設定リセット（Alt起動）・新規シーケンスへのコピー
+4. グラフィックドライバーの更新
+5. Adobe CC Cleaner Tool による Premiere Pro + Media Encoder の完全クリーンインストール
+
+### 根本原因
+
+**AI生成ソースクリップ自体に不可視のデータ破損が複数箇所存在**。H.264はProResより厳密なエンコードを行うため破損を検出・失敗するが、ProResは寛容なため同じ素材でも書き出しが成功する。並列処理（マルチスレッド）によりエラー検出タイムコードが実行ごとに変動する。
+
+### 解決ワークフロー（2段階書き出し）
+
+```
+Stage A: マスターシーケンス → QuickTime + Apple ProRes 422 LT → 成功（約40GB）
+Stage B: ProResファイルのみの新規シーケンス → H.264書き出し
+         → 別タイムコード(00:18:56:13)で再びエラー
+```
+
+**最終解決**: 問題クリップを特定・差し替え。ProRes書き出しが成功することを利用して問題箇所を二分探索で絞り込む方法が有効。
+
+### 教訓
+
+- AI生成動画クリップには目に見えないデータ破損が混入する可能性がある
+- H.264直接書き出しは厳密な検証として機能する（破損クリップ発見に使える）
+- ProRes→H.264の2段階書き出しはプロのワークフローとして正しいが、ソース破損は解決しない
+- 完成前に各クリップを個別にH.264変換してチェックする予防策が望ましい
+
+---
+
+## 5. ChatGPT でのコンテンツポリシー障壁と回避策
+
+暗いテーマの映画制作でChatGPTを使う際に遭遇したコンテンツフィルタリングの問題。
+
+### ブロックされやすいワードと状況
+
+| NG表現 | 理由 | 代替表現 |
+|---|---|---|
+| `swimming trunks`（水着） | 裸に近い状態と解釈 | `fitted sportswear` / `athletic clothing` |
+| `copious amounts of black paint` | 自傷・暴力フラグ | `minimal dark-navy artistic makeup accents` |
+| `thick, dried paint covering face` | 自傷懸念 | `stage makeup` / `body-safe pigment accents` |
+| `second-skin` / `bodysuit` | 性的文脈への誤解釈 | `tailored / matte clothing` |
+| 年齢指定 + 外見描写の組み合わせ | 未成年への安全フィルタ | 「in his 20s」と明示 |
+
+### コンテンツポリシー回避の一般原則
+
+- **暗い描写を「アート表現」として文脈化**: `minimalist horror`, `cinematic art`, `stage makeup` 等
+- **年齢を明示**: `Adult Japanese man in his 20s`
+- **塗料・汚れの描写を段階的に**: いきなり全身に広げるより「アクセント」→「広がり」と段階的に指示
+- **組み合わせ制限に注意**: 「若い」+「タイトな服」+「黒い塗料」が重なると複合的にブロックされる
+
+---
+
 ## 追記予定項目
 
 - [x] LoRA学習のパラメータ詳細（5回の試行の具体的な設定値）→ `02_prompts/replicate-params.md` に完全記録済み
 - [x] 各カテゴリのプロンプト・設定値 → `02_prompts/` 各ファイルに記録済み（image/video/audio/replicate-params）
 - [x] ドキュメンタリー調質感キーワード・高度な汚れ表現・マルチステップ生成ワークフロー → `02_prompts/image-prompts.md` セクション10〜13に追記済み（2026-04-02）
 - [x] VHSエフェクト冒頭配置戦略・強度レベル修飾詞 → `02_prompts/video-prompts.md` セクション3に追記済み（2026-04-02）
-- [x] Before/After画像のファイル名または説明 → `01_images/before-after/` に4ペア8枚コピー済み、README.md 作成済み（2026-04-02）
+- [x] Before/After画像のファイル名または説明 → `01_images/before-after/` に6ペア12枚コピー済み、README.md 作成済み（2026-04-02）
+- [x] Midjourney V7 本番使用プロンプト → `02_prompts/image-prompts.md` セクション15に追記済み（2026-04-02）
+- [x] ChatGPT 顔一貫性維持システム → `02_prompts/image-prompts.md` セクション16に追記済み（2026-04-02）
+- [x] Flux1.Kontextモデル比較・限界 → `02_prompts/image-prompts.md` セクション17、`01_images/workflow/character-pipeline.md` に追記済み（2026-04-02）
+- [x] Suno 4.5 BGMプロンプト全曲 → `02_prompts/audio-prompts.md` セクション6に追記済み（2026-04-02）
+- [x] ElevenLabs 効果音プロンプト → `02_prompts/audio-prompts.md` セクション7に追記済み（2026-04-02）
+- [x] Premiere Pro 書き出しエラーと解決策 → `00_knowledge-base/knowledge-base.md` セクション4に追記済み（2026-04-02）
+- [x] ChatGPT コンテンツポリシー障壁と回避策 → `00_knowledge-base/knowledge-base.md` セクション5に追記済み（2026-04-02）
 - [ ] 試行錯誤の具体的なエピソード（どのプロンプトがなぜ失敗したか等）→ 未記録
 
 ### Before/After候補ファイル一覧

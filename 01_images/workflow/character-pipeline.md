@@ -75,6 +75,34 @@ Step 3（以降）: LoRA学習データセット作成 → Replicate で学習
 
 ---
 
+## Flux1.Kontext モデル選定（model1 vs model2）
+
+LoRA学習のベース画像を確立する前に、2人の候補キャラクター（model1・model2）を Flux1.Kontext でシーン適用テストして比較した。
+
+### 比較用シーン（電話シーン・黒塗りホラーシーン）
+
+| # | ファイル | 内容 |
+|---|---|---|
+| 05 | `05_flux1kontext_model1_rejected.png` | model1 のベースポートレート（不採用）|
+| 06 | `06_flux1kontext_model2_chosen.png` | model2 のベースポートレート（採用・LoRA学習の元画像）|
+| 07 | `07_flux1kontext_model1_phone_scene.png` | model1 を電話シーンに適用した結果 |
+| 08 | `08_flux1kontext_model2_phone_scene.png` | model2 を電話シーンに適用した結果 |
+
+### model2 を選んだ理由
+
+| 評価軸 | model1 | model2（採用）|
+|---|---|---|
+| スタイル | アニメ寄り・整いすぎた印象 | フォトリアリスティック・自然な質感 |
+| 照明適応 | 暗いシーンでアニメ的な崩れ方 | 実写的な陰影・正しい暗さ |
+| 孤独感・恐怖感の表現 | 弱い | 強い |
+| 素材テクスチャ（塗料・布）| 均一でプラスチック的 | 不均一でリアル |
+| 髪色 | 茶色がかっている | 正しい漆黒（キャラクター設定通り）|
+
+> 選定プロンプト（電話シーン・黒塗りシーン）→ `02_prompts/image-prompts.md` セクション17  
+> 崩壊例（model2の限界）→ `01_images/before-after/pair6`
+
+---
+
 ## 関連ファイル
 
 - `raw-data/KaworuYagamimodel2.png` — 原本（Midjourney原画）

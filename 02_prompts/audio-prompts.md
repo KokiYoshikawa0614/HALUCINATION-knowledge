@@ -158,3 +158,144 @@ ElevenLabs専用プロンプト生成ツール（GPTs）を活用してプロン
 
 ### Clipchamp での10秒カット
 Windows標準ツール・無料。音声ファイルを10秒ジャストに加工するのに使用（Premiere Proより手軽）。
+
+---
+
+## 6. Suno 4.5 BGM生成プロンプト一覧
+
+ChatGPT GPTs「Suno 4.5 Melody Music Generator」で生成。歌詞なしのインスト曲は **メタタグ形式**（`[Intro, ...]` 等）を歌詞フィールドに入力することで構成を指定する。
+
+### 基本フォーマット
+
+```
+Title: （曲タイトル）
+Style: （ジャンル、楽器、雰囲気、尺 ~X minutes）
+
+Lyrics:
+[Intro, （楽器・テクスチャ）]
+[Verse, （楽器・雰囲気）]
+[Chorus, （楽器・展開）]
+[Bridge, （変化点）]
+[Outro, （終わり方）]
+```
+
+> **ポイント**: 歌詞ではなくメタタグのみで構成すると、AIが「インスト曲」と認識して発話なしで生成する。Duration は Style フィールドに `~X minutes` で指定する。
+
+### シーン別BGMプロンプト一覧
+
+#### オープニング
+- **Title**: Spirals of Silence
+- **Style**: Minimalist cinematic instrumental, soft electronic textures, subtle orchestral layering, looping motifs, ~1 minute
+- **Lyrics**: `[Intro, Low drone, Sparse piano motif] [Looping synth pulse, Soft percussive taps] [Build, Uneasy strings, Hollow echoes] [Cycle repeats, Muted bass, Shifting dissonance] [Outro, Fade into unresolved silence]`
+
+#### 友人の死の知らせ・父の死（短いシーン転換）
+- **Title**: Quiet Concern
+- **Style**: Cinematic instrumental, subdued piano and light strings, minimal textures, reflective tone, 30 seconds
+- **Lyrics**: `[Intro, Sparse piano chords] [Subtle string pad, Gentle pulse] [Held tones, Space for dialogue] [Outro, Soft fade, unresolved atmosphere]`
+
+#### 主人公の疲弊・睡眠不足
+- **Title**: Fractured Hours
+- **Style**: Cinematic instrumental, ambient textures, distorted clock-like pulses, dark undertones, ~1 minute
+- **Lyrics**: `[Intro, Low drone, Distant ticking motif] [Uneasy synth swell, Faint dissonant piano] [Looping pulse, Time-warped echoes] [Build, Hollow strings, Subtle distortion] [Outro, Fading clock motif, Unresolved chord]`
+
+#### 主人公の不安定化（代替バージョン）
+- **Title**: Omen of Sleepless Hours
+- **Style**: Cinematic instrumental, ambient drones, warped clock-like pulses, subtle dissonance, uneasy textures, ~1 minute
+- **Lyrics**: `[Intro, Low drone, Distant ticking echo] [Looping synth pulse, Hollow piano notes] [Build, Uneasy strings, Blurred textures] [Cycle repeats, Distorted rhythm, Tension rising quietly] [Outro, Fading echoes, Unresolved silence]`
+
+#### 犯罪捜査・知的分析
+- **Title**: Anatomy of a Crime
+- **Style**: Cinematic instrumental, soft piano ostinato, light strings, subtle pulses, analytical and curious tone, ~1.5 minutes
+- **Lyrics**: `[Intro, Soft piano motif, Sparse atmosphere] [Light strings enter, Gentle pulse] [Subtle variations, Clockwork-like rhythm, Quiet tension] [Cycle repeats, Expanding textures, Analytical mood] [Outro, Piano returns to simplicity, Fade into silence]`
+
+#### コンピュータ解析・突破口
+- **Title**: Blueprints of Danger
+- **Style**: Cinematic instrumental, soft piano and electronic textures, subtle pulses, quiet but unsettling atmosphere, ~1 minute
+- **Lyrics**: `[Intro, Sparse piano motif, Mechanical hum] [Light electronic pulse, Analytical tone] [Subtle build, Hollow synth echoes, Quiet tension] [Shift, Uneasy strings layered, Dark undertones emerge] [Outro, Fading pulse, Ominous unresolved chord]`
+
+#### 警察記録発覚・シミュレーション
+- **Title**: Simulated Truth
+- **Style**: Cinematic instrumental, soft piano and electronic textures, subtle strings, quiet analytical mood with ominous undertones, ~1:50
+- **Lyrics**: `[Intro, Sparse piano motif, Gentle electronic pulse] [Build, Layered textures, Computer-like rhythms, Analytical tension] [Subtle strings enter, Hollow echoes, Intellectual focus] [Shift, Uneasy synth undertone, Hint of danger creeping in] [Cycle repeats, Pulse intensifies slightly, Ominous foreshadowing] [Outro, Piano fades into silence, Lingering unease]`
+
+#### 鈴木との口論・非人間化テーマ
+- **Title**: Voices in the Machine
+- **Style**: Cinematic instrumental, ambient dissonance, low drones, sparse piano and strings, unsettling yet restrained, 2:10
+- **Lyrics**: `[Intro, Low drone, Sparse piano strikes, Hollow atmosphere] [Subtle pulsing motif, Faint metallic echoes] [Build, Uneasy strings, Dissonant layers, Tension rising quietly] [Middle section, Mechanical rhythms, Ominous undertones, Space for dialogue] [Shift, Hollow synth swells, Distorted echoes, Mysterious unease] [Outro, Drone fades into silence, Unresolved chord lingering]`
+
+#### 悪夢・抑鬱シーン（美しく中毒的な暗さ）
+- **Title**: Echoes of a Beautiful Nightmare（採用）/ Sweet Poison of Silence（代替）
+- **Style**: Dark Ambient, Minimalist, High-register piano + sparse low drone, ~2 minutes
+- **Lyrics**: `[Intro, Dissonant piano, Low drones] [Verse, Distorted strings, Pulsing sub-bass] [Chorus, Swelling synths, Metallic percussion] [Bridge, Warped guitar textures, Reverse effects] [Break, Heavy reverb, Rising tension] [Outro, Fading echoes, Hollow bells] [End, Silence]`
+- **設計コンセプト**: 高音域の繊細なメロディと深いベースの空白そのものが孤独と神経症を表現する
+
+#### 宮沢賢治「銀河鉄道の夜」ナレーション伴奏
+- **Title**: Galactic Reverie（採用）/ Night on the Galactic Railroad（代替）
+- **Style**: Ambient & Minimal Music, Strings and Cello Solo, Fantastical Soundscape, ~6 minutes
+- **Lyrics**: `[Intro, Ambient textures, Soft strings] [Minimal piano motifs, Repetitive patterns] [Cello Solo, Melancholy] [Layered strings, Sustained harmonies] [Ethereal pads, Celestial atmosphere] [Minimal percussion, Subtle pulse like train rhythm] [Strings swell, Emotional crescendo] [Ambient breakdown, Quiet space] [Return of cello solo, Bittersweet theme] [Outro, Dissolving into silence, Cosmic resonance]`
+- **楽器構成**: Ambient drone + soft organ + cello（旋律）+ celesta（アクセント）+ minimal percussion
+- **設計原則**: メロディが語りを圧迫しないよう「環境音楽」+「ミニマル音楽」で構成
+
+#### 友人・結衣の死（悲嘆）
+- **Title**: Echoes of a Fading Star（採用）/ Silent Farewell（代替）
+- **Style**: Ambient Instrumental, Minimal Piano & Strings, Reflective Atmosphere, 1 minute
+- **Lyrics**: `[Intro, Sparse piano notes, Slow tempo] [Soft strings, Sustained harmonies] [Cello Solo, Mourning tone] [Minimal piano motif, Repetitive, fading] [Outro, Gentle resonance, Dissolving into silence]`
+
+#### AIシステム崩壊・主人公の精神的崩壊
+- **Title**: System Collapse
+- **Style**: Experimental Electronic, Harsh Noise, Dissonant Soundscape
+- **Lyrics**: `[Intro, Glitching static, Mechanical hum] [Build, Distorted synth layers, Dissonant chords] [Break, Harsh white noise, Metallic screeches] [Climax, Overloaded bass, Broken circuit stutters] [Outro, Fading distortion, Low sub-bass rumble] [End, Silence]`
+
+#### 美しいピアノ独奏（悪夢の中の静寂）
+- **Title**: Whispers in the Dark
+- **Style**: Solo Grand Piano, Haunting, Melancholic, 120 seconds
+- **Lyrics**: `[Intro, High register piano motif, Sparse bass notes] [Verse, Slow haunting melody, Upper register emphasis] [Chorus, Dissonant harmonies, Resonant sustain] [Bridge, Gradual tension, Sparse low notes] [Break, Silence between phrases, Lingering reverb] [Outro, Single low bass note echoing into silence] [End, Silence]`
+
+### ツール運用メモ
+
+- 同じプロンプトを **Suno / Udio / ElevenLabs** すべてで試し、最も合うツールで採用
+- Udioは不気味・実験的なインスト曲に強い（`System Collapse` 等）
+- Sunoはプロンプト理解力が高く幅広いシーンに対応
+- ElevenLabsは長さを秒単位で厳密指定したい場合に有効
+
+---
+
+## 7. ElevenLabs 効果音プロンプト一覧
+
+ChatGPT GPTs「Elevenlabs Sound Design Expert」で生成したプロンプト。
+
+### 基本プロンプト構造
+
+```
+High-quality [主音・主アクション], [foley effect], [テクスチャ/副要素], [環境的文脈].
+```
+
+- **Duration**: 短い（3秒）〜ループ用（15秒+）
+- **Prompt Influence**: High（プロンプトへの忠実度を上げる）
+
+### 効果音別プロンプト
+
+#### ライターの火
+- **Prompt**: `"High-quality sound of a lighter igniting and flame flickering, foley effect, subtle crackling."`
+- **Duration**: 3秒
+
+#### 強烈な燃焼音（一定ボリューム・ループ用）
+- **Prompt**: `"Loud, intense burning fire sound, constant in volume, high-quality, foley effect with no fluctuations."`
+- **Duration**: 10〜15秒
+
+#### 爆発・発砲・瓦礫
+- **Prompt**: `"Deep booming blast with sharp debris impact at a fire scene, fire crackle, falling rubble, echoing shockwave."`
+- **Duration**: 6〜10秒
+
+#### 火の急速な広がり（シーン臨場感用）
+- **Prompt**: `"Loud, aggressive sound of fire rapidly spreading at a fire scene, intense roaring flames, crackling wood and burning debris, chaotic and immersive fire soundscape."`
+- **Duration**: 12〜15秒
+
+### ElevenLabs 音響設計の原則
+
+| 原則 | 内容 |
+|---|---|
+| 主音 + 副音の構成 | 「爆発音」+ 「瓦礫の落下」+ 「残響」で奥行きを出す |
+| 空間的文脈を加える | `at a fire scene` 等で感情的フレーミングを強化 |
+| 複数要素の順序記述 | 「点火 → 燃焼 → 燃え広がり」の時系列で記述 |
+| DAW後処理想定 | 生成音をPremiere Pro等で重ねてシーン合成する |
