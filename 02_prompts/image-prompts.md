@@ -267,7 +267,69 @@ vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr ta
 
 ---
 
-## 10. 使用ツール別の使い分け
+## 10. ドキュメンタリー調の質感とAIっぽさの払拭（リアルな映画シーン生成プロンプトより）
+
+### AIっぽさを消すキーワード
+
+| キーワード | 効果 |
+|---|---|
+| `shot on 16mm film, film grain, slightly desaturated colors` | フィルム質感・彩度の落ち着き |
+| `documentary style photo, candid shot` | 「撮影された感」の付加 |
+| `handheld camera feel, slight motion blur` | 手持ち撮影らしいぶれ感 |
+
+> これらを `Photorealistic, 8k, RAW photo` と組み合わせると、AI生成画像特有の「過剰にきれいすぎる」質感を抑制できる。
+
+---
+
+## 11. 血・汚れ表現の高度な言語化
+
+### 英語ボキャブラリー別の効果
+
+| 表現 | 用途 |
+|---|---|
+| `drenched, soaked in` | 全体的にびっしょり濡れた状態 |
+| `cascading down, dripping from` | 液体が流れ落ちている状態 |
+| `turning it completely crimson` | 赤く染まった → 血の色を自然に表現 |
+| `thick, viscous black liquid like sumi ink` | 墨汁のような黒い液体（高粘度） |
+| `dried, oxidized, non-uniform` | 乾いて不均一な質感（#9の発見） |
+
+> **参照**: 有機的テクスチャ表現の詳細は「セクション9：LoRA表現限界テスト」を参照。
+
+---
+
+## 12. マルチステップ生成ワークフロー（高品質血・汚れシーン）
+
+複雑な汚れや血のシーンはLoRA一発生成では品質が安定しない。以下の三段階ワークフローが有効：
+
+```
+Stage 1: LoRA（v5）でベース画像を生成
+          → 血なし・完璧なキャラクター状態で生成
+          → 顔の一貫性を最大化
+
+Stage 2: Inpainting で汚れ・血を追加
+          → 汚れを追加したい領域のみマスクして再生成
+          → 局所的な高品質化が可能
+
+Stage 3: 後処理（Topaz Photo AI 4 / DaVinci Resolve）
+          → アップスケール + 顔を保ちながら質感調整
+          → 全体的なAIっぽさの最終除去
+```
+
+> **重要**: Stage 1でフェイススワップ用の素材（安定した顔）を確保しておくと、Stage 2以降で顔が崩れた場合に対処できる。
+
+---
+
+## 13. Whisk を用いた参照画像活用法
+
+Google Whisk にアップロードした参照画像を使い、生成画像の顔一貫性を高める手法。
+
+- LoRAが使えないツール（Gemini Image等）で顔の一貫性を確保する代替策
+- 参照画像を複数枚アップロードすることで、角度・表情違いに対応
+- 生成結果が参照画像に引きすぎる（identical化）場合は、参照の重みを下げるか枚数を絞る
+
+---
+
+## 14. 使用ツール別の使い分け
 
 | 用途 | ツール | 理由 |
 |---|---|---|

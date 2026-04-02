@@ -246,3 +246,13 @@ low quality, deformed hands, bad composition, watermark, lighting, floor
 - 「結果・現象」を記述する（「走る」→「背景が流れる・役者は画面中央を保つ」）
 - ネクタイなしの強調：`absolutely no tie` + ネガティブに `tie` 追加
 - 明るさ制御には感情的な言葉も有効：`oppressively dark`、`suffocating`
+
+### VHSエフェクト全般（Runway / Pixverse V5 共通）
+- **VHSキーワードはプロンプト先頭に配置**することで効果が強まる（後半配置より優先度が高くなる）
+- 強度レベルを修飾詞で調整可能：
+  ```
+  通常: vhs screengrab, blurry vhs filter, vcr film grain effect, grainy quality, vcr tape static, bad lines
+  強調: EXTREME vhs screengrab, HEAVILY blurry vhs filter, INTENSE vcr film grain effect, VERY grainy quality, SIGNIFICANT vcr tape static, SEVERE bad lines
+  ```
+- Runway Gen-4 向けの表現：`Rendered in the extremely poor and grainy quality of a VHS tape`（文章形式）
+- 詳細なVHSプロンプト例は `02_prompts/image-prompts.md` セクション8（Midjourneyスタイル）も参照
