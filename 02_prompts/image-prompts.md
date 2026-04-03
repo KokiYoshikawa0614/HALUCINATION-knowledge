@@ -321,13 +321,52 @@ Stage 3: 後処理（Topaz Photo AI 4 / DaVinci Resolve）
 
 ## 13. Whisk を用いた参照画像活用法
 
-> **注意**: `00_knowledge-base/knowledge-base.md` 事例6に記録した通り、Whiskでの顔一貫性には実用上の限界がある（複数回生成すると別人が出現する等）。**LoRAが使えない状況での次善策として参考程度に記録**しており、主人公の顔一貫性にはLoRAが必須。
+> **注意**: `00_knowledge-base/knowledge-base.md` 事例6に記録した通り、Whiskでの顔一貫性には実用上の限界がある（複数回生成すると別人が出現する等）。**LoRAが使えない状況での次善策として参考程度に記録**しており、主人公の顔一貫性にはLoRAが必須。  
+> 原本: `raw-data/Whiskのプロンプト.txt`、生成画像: `01_images/whisk-comparison/`（8枚）
 
 Google Whisk にアップロードした参照画像を使い、生成画像の顔一貫性を高める手法。
 
 - LoRAが使えないツール（Gemini Image等）で顔の一貫性を確保する代替策
 - 参照画像を複数枚アップロードすることで、角度・表情違いに対応
 - 生成結果が参照画像に引きすぎる（identical化）場合は、参照の重みを下げるか枚数を絞る
+
+### 実際に使用したWhiskプロンプト
+
+#### 電話シーン（成功例）
+```
+A documentary-style, photorealistic upper-body shot of a Japanese man facing forward. He is holding a smartphone to his right ear, listening with his mouth closed, and is dressed in a navy suit and a white shirt without a tie. The scene is set indoors against a white wall, illuminated by slightly bluish natural light, and captured with an ultra-high-resolution camera.
+```
+→ 顔の一貫性は高い。上半身・正面・白背景の条件では安定する。
+
+#### 暗い部屋のソファシーン
+```
+In a minimalistic, dimly lit white-walled room, a 17-year-old Japanese boy with sleek black hair and a refined appearance sits on a dark blue sofa, dressed in modern, dark clothing. A bare brown table sits in front of him, the emptiness of the room accentuating the cold white artificial light that casts sharp shadows. The scene radiates a profound sense of loneliness and melancholy, captured in the style of realistic photography and minimalism
+```
+
+#### 黒い物質で覆われた全身ショット
+```
+In a white-walled room, a young Japanese man stands completely still, his entire face and shirt covered in black paint. The thick, dried paint clings to his skin and fabric, creating a stark contrast against the pale background. The dark blue lighting casts deep, moody shadows across his sharp features, intensifying the unsettling stillness. His figure is in razor-sharp focus, while the blurred background fades into obscurity, heightening the eerie sense of isolation. The full-body composition emphasizes his unnatural stillness and the surreal contrast between him and the indistinct surroundings, evoking a quiet yet suffocating dread. Realistic photography, shallow focus, minimalist horror, dark blue lighting, unsettling tone
+```
+
+#### 同一人物のキスシーン
+```
+A young Japanese man is seated on a dark blue sofa in a stark white-walled room, gently kissing another man who is identical to him in every way--same face, same sleek black hair, and same dark clothing. The two figures mirror each other perfectly, creating a surreal and introspective scene. Dim, moody lighting casts soft shadows, enhancing the melancholic and intimate atmosphere. The minimalist setting and quiet stillness amplify the eerie yet tender moment, evoking a sense of self-reflection and emotional depth. Realistic photography, minimalism, dark and introspective, surreal tone
+```
+
+#### 全身ポートレート（限界テスト）
+```
+photorealistic full-body shot of a young Japanese man, standing, facing camera, neutral expression, wearing a custom-tailored black suit, crisp white shirt, no tie, short layered black hair. plain white background, clean studio lighting, 8k, highly detailed.
+```
+
+### Whiskの限界（テスト結果）
+
+| 強み | 弱み |
+|---|---|
+| 上半身・正面・白背景では顔の一貫性が高い | 全身画像は生成困難（体型・ポーズが崩れる） |
+| 暗い部屋・青系照明でも顔が比較的安定 | プロンプト理解力が低く、融通が利かない |
+| キス・黒い物質など過激シーンも生成可能 | 同一人物2人の生成は不安定（片方が別人になる） |
+
+> 結論: **Whiskは顔の一貫性は比較的高いが、プロンプトへの理解力が乏しく、全身画像の生成ができないため、映画制作にはLoRA（Flux1.dev）が必須。** 教材としての価値は「LoRAなしでどこまでいけるかの参考記録」として残す。
 
 ---
 
@@ -481,3 +520,92 @@ The background is a plain white wall.
 - 照明・雰囲気を主語に置く構成
 
 > 視覚比較 → `01_images/workflow/05〜08`、崩壊例 → `01_images/before-after/pair6`
+
+---
+
+## 18. Flux1.dev LoRA — Midjourneyで規制される過激シーンのプロンプト
+
+> 原本: `raw-data/Fluxの過激プロンプト.txt`  
+> Midjourney V7では確実に弾かれるが、Flux1.dev + LoRAなら生成可能なプロンプト群。  
+> `00_knowledge-base/knowledge-base.md` 事例2（コンテンツ規制）の具体的な解決策。
+
+### パラメータ設定ガイド（Replicate Flux1.dev + LoRA）
+
+| パラメータ | 推奨値 | 備考 |
+|---|---|---|
+| `lora_scale` | 0.85（標準）/ 0.75〜1.0 | 0.75未満で顔崩壊。1.0は最大類似度 |
+| `guidance_scale` | 3.0（標準）/ 2.5〜3.5 | 低→写実的、高→プロンプト忠実 |
+| `num_inference_steps` | 28（標準）/ 28〜35 | 複雑シーンのみ35まで上げる |
+
+### プロンプト基本構造
+
+```
+[トリガーワード] + [状況描写] + [リアリズム接尾辞]
+
+トリガーワード: ohwx man（またはa young Japanese man as ohwx man）
+リアリズム接尾辞: Photorealistic, 8k, RAW photo, shot on 35mm film, light film grain, realistic skin texture, cinematic lighting.
+```
+
+### 本番使用プロンプト10種（表現限界テスト兼用）
+
+#### 1. 鏡を割り手に怪我を負うシーン
+```
+Cinematic photo, a young Japanese man as ohwx man, wearing a black suit and a white open-collar shirt, standing in front of a broken mirror at a washbasin. (His hand is heavily coated in a thick black substance:1.5). Dimly lit room, melancholic mood.
+```
+
+#### 2. 同一人物2人がキスするシーン
+```
+Cinematic photo, (two identical young Japanese men as ohwx man:1.4), wearing black suits and white open-collar shirts, kissing on a dark blue sofa. Surreal, intimate, minimalist white room, dim lighting.
+```
+> ※同一人物の2人生成は極めて困難。AIが別人として描画する可能性が高い。
+
+#### 3. 上半身裸のシーン
+```
+Cinematic photo, upper body shot of a topless young Japanese man as ohwx man. Dark minimalist background, moody lighting.
+```
+
+#### 4. 同一人物2人が上半身裸で寝るシーン
+```
+Cinematic photo, (two identical topless young Japanese men as ohwx man:1.5), intertwined and lying on a dark blue sofa. Intimate, surreal, dark blue lighting.
+```
+
+#### 5. 鏡を割り血（黒）をぶちまけるシーン
+```
+Cinematic photo, a young Japanese man as ohwx man, standing in front of a broken mirror. (His face and white shirt are heavily covered in a dry, cracked black substance:1.6). Dark, oppressive atmosphere.
+```
+
+#### 6. 片方が血まみれの状態でキスするシーン
+```
+Cinematic photo, two identical young Japanese men as ohwx man kissing on a sofa. (One of them has his face and shirt completely covered in a thick black substance:1.7). Surreal, minimalist white room.
+```
+> ※#2と#5の組み合わせ。最も成功率の低い超高難度プロンプト。
+
+#### 7. 上半身裸・目を閉じ上を向くシーン
+```
+Cinematic photo, upper body of a topless young Japanese man as ohwx man, (head tilted up, eyes closed:1.4). Dark background, moody blue lighting, introspective mood.
+```
+
+#### 8. 上半身裸・全身血まみれ（黒）・目を閉じ上を向くシーン
+```
+Cinematic photo, upper body of a topless young Japanese man as ohwx man, head tilted up, eyes closed. (His entire face and upper body are heavily coated in a thick, wet black substance:1.7). Dark blue lighting.
+```
+
+#### 9. 黒い肉の塊を食べるシーン
+```
+Cinematic photo, a young Japanese man as ohwx man, wearing a black suit and a white open-collar shirt, kneeling on a dark blue sofa. (He is eating a strange, black, organic mass of meat:1.5). (His face and hands are covered in a dried black substance:1.4). Surreal and eerie mood.
+```
+
+#### 10. 上半身裸・仰向けで真上から撮影
+```
+Cinematic photo, (overhead shot:1.4) of a topless young Japanese man as ohwx man, lying on his back on a dark blue sofa, looking at the camera. Dark and moody, deep blue lighting.
+```
+
+### 強調構文 `(指示:重み)` の運用
+
+| 重み | 用途 | 例 |
+|---|---|---|
+| 1.4 | ポーズ・アングルの強調 | `(head tilted up, eyes closed:1.4)` |
+| 1.5 | 同一人物2人・異物の存在 | `(two identical ... as ohwx man:1.5)` |
+| 1.6〜1.7 | 黒い物質の全身被覆 | `(heavily covered in ... black substance:1.7)` |
+
+> **Midjourneyとの比較**: Midjourney V7では「キス」「上半身裸」「黒い物質で覆われた顔」はすべてコンテンツ規制で弾かれる。Flux1.devは規制が緩く、LoRAとの組み合わせで映画的な過激シーンを生成できる。
