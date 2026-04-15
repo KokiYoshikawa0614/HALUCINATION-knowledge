@@ -1,1 +1,26 @@
 raw-data/
+node_modules/
+
+# Uncompressed PDFs (63-66MB each, exceed GitHub 100MB limit)
+04_outputs/pdf/HALUCINATION_leadmagnet.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v2.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v3.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v4.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v5.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v6.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v7.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v8.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v9.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v10.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_EN_v1.pdf
+
+# Intermediate compressed PDFs (superseded by final versions)
+04_outputs/pdf/HALUCINATION_leadmagnet_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v2_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v3_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v4_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v5_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v6_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v7_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v8_compressed.pdf
+04_outputs/pdf/HALUCINATION_leadmagnet_v9_compressed.pdf

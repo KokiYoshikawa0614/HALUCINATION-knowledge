@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HALUCINATION — AI映画制作の全記録</title>
+<style>
+  /* ========================================
+     BASE STYLES — A4 Layout Rules
+     ======================================== */
+  @page {
+    size: A4;
+    margin: 25mm;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 18pt;
+    line-height: 1.5;
+    font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    color: #1A1A1A;
+    background: #FFFFFF;
+  }
+
+  body {
+    max-width: 210mm;
+    margin: 0 auto;
+  }
+
+  /* ========================================
+     TYPOGRAPHY HIERARCHY
+     ======================================== */
+  h1 {
+    font-size: 36pt;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0D0D0D;
+    margin-bottom: 0.4em;
+  }
+
+  h2 {
+    font-size: 36pt;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0D0D0D;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.2em;
+    border-bottom: 3px solid #3A7CA5;
+  }
+
+  h3 {
+    font-size: 24pt;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1A1A1A;
+    margin-bottom: 0.4em;
+    margin-top: 0.8em;
+  }
+
+  p {
+    font-size: 18pt;
+    line-height: 1.5;
+    margin-bottom: 0.8em;
+    color: #222222;
+  }
+
+  .caption {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #666666;
+    margin-top: 0.3em;
+  }
+
+  /* ========================================
+     ACCENT COLOR — Cool blue (寒色系)
+     ======================================== */
+  :root {
+    --accent: #3A7CA5;
+    --accent-light: #E8F1F8;
+    --bg-light: #F7F8FA;
+    --text-dark: #1A1A1A;
+    --text-body: #222222;
+    --text-muted: #666666;
+  }
+
+  /* ========================================
+     PAGE BREAKS
+     ======================================== */
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* ========================================
+     COVER PAGE (Section 1)
+     ======================================== */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 247mm;
+    text-align: center;
+    padding-top: 5mm;
+  }
+
+  .cover img {
+    width: 100%;
+    max-height: 200mm;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 0.4em;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+  }
+
+  .cover .subtitle {
+    font-size: 28pt;
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.2em;
+    line-height: 1.3;
+  }
+
+  .cover .author {
+    font-size: 18pt;
+    color: var(--text-muted);
+    margin-top: 0.1em;
+  }
+
+  /* ========================================
+     TABLES
+     ======================================== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6em 0 0.8em;
+    font-size: 13pt;
+  }
+
+  th {
+    background: var(--accent);
+    color: #FFFFFF;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.3em 0.5em;
+    font-size: 13pt;
+  }
+
+  td {
+    padding: 0.25em 0.5em;
+    border-bottom: 1px solid #E0E0E0;
+    vertical-align: top;
+    font-size: 13pt;
+  }
+
+  tr:nth-child(even) td {
+    background: var(--bg-light);
+  }
+
+  /* ========================================
+     IMAGES
+     ======================================== */
+  .still-gallery {
+    display: flex;
+    gap: 4px;
+    margin: 0.8em 0;
+  }
+
+  .still-gallery img {
+    flex: 1;
+    height: 250px;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .before-after {
+    display: flex;
+    gap: 10px;
+    margin: 0.5em 0 0.3em;
+    align-items: flex-start;
+  }
+
+  .before-after .ba-col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .before-after img {
+    width: 100%;
+    height: 68mm;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .before-after .ba-label {
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ========================================
+     SPEC BOX
+     ======================================== */
+  .spec-box {
+    background: var(--bg-light);
+    border-left: 4px solid var(--accent);
+    padding: 0.8em 1em;
+    margin: 0.8em 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .spec-box .spec-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25em 0;
+    border-bottom: 1px solid #E8E8E8;
+    font-size: 14pt;
+  }
+
+  .spec-box .spec-item:last-child {
+    border-bottom: none;
+  }
+
+  .spec-box .spec-label {
+    color: var(--text-muted);
+    font-size: 13pt;
+  }
+
+  .spec-box .spec-value {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ========================================
+     INLINE CTA (controlled, subtle)
+     ======================================== */
+  .inline-cta {
+    font-size: 16pt;
+    color: var(--accent);
+    font-style: italic;
+    margin-top: 0.5em;
+    padding: 0.4em 0;
+    border-top: 1px dashed #CCCCCC;
+  }
+
+  /* ========================================
+     ERROR CASE CARD
+     ======================================== */
+  .case-card {
+    background: var(--bg-light);
+    border-radius: 6px;
+    padding: 1em;
+    margin: 0.5em 0;
+    border: 1px solid #E0E0E0;
+  }
+
+  .case-card h3 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 30pt;
+  }
+
+  .case-card .problem {
+    font-weight: 600;
+    font-size: 18pt;
+  }
+
+  /* ========================================
+     WORKFLOW DIAGRAM
+     ======================================== */
+  .workflow-diagram {
+    margin: 0.3em 0;
+  }
+
+  .flow-section {
+    margin-bottom: 0.5em;
+  }
+
+  .flow-section-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.2em;
+    padding: 0.2em 0.5em;
+    background: var(--accent-light);
+    border-radius: 3px;
+    text-align: center;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    margin: 0.2em 0;
+  }
+
+  .flow-step {
+    background: #FFFFFF;
+    border: 1px solid #D0D0D0;
+    border-radius: 4px;
+    padding: 0.2em 0.6em;
+    font-size: 13pt;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    width: 80%;
+    text-align: center;
+  }
+
+  .flow-step .tool-name {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 13pt;
+    white-space: nowrap;
+    min-width: 100px;
+  }
+
+  .flow-step .step-desc {
+    font-size: 12pt;
+    color: var(--text-muted);
+  }
+
+  .flow-arrow {
+    font-size: 14pt;
+    color: var(--accent);
+    padding: 0;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .flow-branch {
+    border-left: 3px solid var(--accent);
+    padding-left: 0.6em;
+    margin: 0.2em 0 0.2em 0.6em;
+  }
+
+  .flow-branch-item {
+    font-size: 12pt;
+    margin-bottom: 0.2em;
+    color: var(--text-body);
+  }
+
+  .flow-branch-item .tool-name {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ========================================
+     SECTION 7: CTA PAGE
+     ======================================== */
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .paid-content-list {
+    text-align: left;
+    margin: 1em auto;
+    max-width: 145mm;
+    padding: 0;
+  }
+
+  .paid-content-list li {
+    font-size: 18pt;
+    margin-bottom: 1em;
+    padding: 0.6em 0.8em 0.6em 1em;
+    list-style: none;
+    position: relative;
+    background: var(--bg-light);
+    border-radius: 5px;
+    border-left: 4px solid var(--accent);
+  }
+
+  .paid-content-list li::before {
+    content: none;
+  }
+
+  .paid-content-list .li-sub {
+    font-size: 14pt;
+    color: var(--text-muted);
+  }
+
+  /* ========================================
+     LARGE TEXT — Sections 5+ (壁, 短尺→長尺)
+     ======================================== */
+  .large-text p {
+    font-size: 20pt;
+  }
+
+  .large-text h2 {
+    font-size: 36pt;
+  }
+
+  .large-text h3 {
+    font-size: 26pt;
+  }
+
+  .large-text .case-card p {
+    font-size: 20pt;
+  }
+
+  .large-text .spec-box .spec-item {
+    font-size: 16pt;
+  }
+
+  .large-text .spec-box .spec-label {
+    font-size: 15pt;
+  }
+
+  .large-text table {
+    font-size: 15pt;
+  }
+
+  .large-text th, .large-text td {
+    font-size: 15pt;
+  }
+
+  .cta-closing {
+    font-size: 20pt;
+    color: var(--text-dark);
+    margin-top: 1.5em;
+    font-weight: 600;
+    background: var(--accent-light);
+    padding: 1em 1.5em;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* ========================================
+     PAGE-SPECIFIC OVERRIDES (v8)
+     ======================================== */
+
+  /* Page 2: body text 20pt */
+  .page2 p {
+    font-size: 20pt;
+  }
+
+  /* Page 3: text 19pt, table 14pt (v8 size — larger causes overflow) */
+  .page3 p {
+    font-size: 19pt;
+  }
+  .page3 table, .page3 th, .page3 td {
+    font-size: 14pt;
+  }
+
+  /* Page 4: text & table +3-4pt from base */
+  .page4 p {
+    font-size: 22pt;
+  }
+  .page4 h3 {
+    font-size: 28pt;
+  }
+  .page4 table, .page4 th, .page4 td {
+    font-size: 17pt;
+  }
+
+  /* 壁①: compact to fit single page */
+  .kabe1 h2 {
+    font-size: 30pt;
+    margin-bottom: 0.3em;
+  }
+  .kabe1 p {
+    font-size: 17pt;
+    margin-bottom: 0.5em;
+  }
+  .kabe1 .case-card {
+    padding: 0.7em;
+    margin: 0.3em 0;
+  }
+  .kabe1 .case-card h3 {
+    font-size: 26pt;
+  }
+  .kabe1 .problem {
+    font-size: 15pt;
+  }
+  .kabe1 .before-after img {
+    height: 55mm;
+  }
+  .kabe1 .before-after {
+    margin: 0.3em 0 0.2em;
+  }
+  .kabe1 .caption {
+    font-size: 10pt;
+    margin-top: 0.1em;
+  }
+  .kabe1 .inline-cta {
+    font-size: 13pt;
+    padding: 0.2em 0;
+    margin-top: 0.3em;
+  }
+  /* CTA page: font -1pt, margins tightened */
+  .cta-section .paid-content-list li {
+    font-size: 17pt;
+    margin-bottom: 0.7em;
+    padding: 0.5em 0.7em 0.5em 0.9em;
+  }
+  .cta-section .paid-content-list .li-sub {
+    font-size: 13pt;
+  }
+  .cta-section .cta-closing {
+    font-size: 19pt;
+    margin-top: 1em;
+    padding: 0.8em 1.2em;
+  }
+
+  /* 壁②: body text +2pt */
+  .kabe2 p {
+    font-size: 22pt;
+  }
+  .kabe2 .case-card p {
+    font-size: 22pt;
+  }
+  .kabe2 .problem {
+    font-size: 20pt;
+  }
+
+  /* 短尺→長尺 page: body text +3-4pt */
+  .page-tantanjaku p {
+    font-size: 24pt;
+  }
+  .page-tantanjaku h3 {
+    font-size: 30pt;
+  }
+  .page-tantanjaku table, .page-tantanjaku th, .page-tantanjaku td {
+    font-size: 18pt;
+  }
+
+  /* 17シーケンス page: body text +2-3pt (1pt down from v9 to fit) */
+  .page-sequence p {
+    font-size: 23pt;
+  }
+  .page-sequence h3 {
+    font-size: 29pt;
+  }
+  .page-sequence .spec-box .spec-item {
+    font-size: 19pt;
+  }
+  .page-sequence .spec-box .spec-label {
+    font-size: 17pt;
+  }
+  .page-sequence .inline-cta {
+    font-size: 17pt;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SECTION 1: COVER
+     ============================================================ -->
+<div class="cover">
+  <img src="../../raw-data/正式ポスター.jpg" alt="HALUCINATION 正式ポスター">
+
+  <div class="subtitle">
+    100% AI生成・39分の心理サスペンス映画を<br>
+    1人で完成させるまでの全記録
+  </div>
+  <div class="author">吉川晃騎 ― 京都大学 理学部</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 2: この映画について
+     ============================================================ -->
+<section class="page2">
+  <h2>この映画について</h2>
+
+  <p>
+    私は2025年の夏、約1ヶ月で39分の長編映画を完成させました。キャスト、ロケ地、カメラはすべてAIに置き換え、自宅のノートPC1台から一歩も出ずに制作しています。
+  </p>
+
+  <div class="spec-box">
+    <div class="spec-item">
+      <span class="spec-label">上映時間</span>
+      <span class="spec-value">39分（長編）</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">映像・音声</span>
+      <span class="spec-value">100% AI生成</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">制作費</span>
+      <span class="spec-value">¥84,261（約$581）</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">制作体制</span>
+      <span class="spec-value">1人（企画〜編集すべて）</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">使用PC</span>
+      <span class="spec-value">NEC LAVIE / Core i3 / RAM 8GB / GPU なし</span>
+    </div>
+  </div>
+
+  <p>
+    ジャンルは心理サスペンスです。アパートの一室で若い報道記者がテロ事件の真相を追ううちに、人間の深層心理の闇に浸食されていく物語です。全17シーケンス、登場人物8名、BGM12曲、効果音24種で構成しています。
+  </p>
+  <p>
+    着想は2017年、高校1年のときにAlex Garland監督『Ex Machina』を観たことにさかのぼります。8年間の構想を経て、2025年夏のAI技術の成熟を待って制作に着手しました。
+  </p>
+
+  <div class="still-gallery">
+    <img src="../../raw-data/映画の準備と後処理/画像/水を飲む/水を飲む２回-topaz-face-upscale-3x.png" alt="水を飲むシーン">
+    <img src="../../raw-data/映画の準備と後処理/画像/ホラーショットの準備/満足７本番-topaz-sharpen-upscale-3x.png" alt="幻覚シーン">
+  </div>
+  <p class="caption">左：日常シーン　右：幻覚シーン — すべてAI生成によるフォトリアルな映像</p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 3: 制作環境と費用
+     ============================================================ -->
+<section class="page3">
+  <h2>制作環境と費用</h2>
+
+  <h3>PCスペック</h3>
+  <p>
+    使用したのは大学入学時に購入した一般的なノートPCです。GPUは非搭載で、すべてクラウドベースのAIサービスで制作しています。
+  </p>
+
+  <table>
+    <tr><th>項目</th><th>スペック</th></tr>
+    <tr><td>メーカー・機種</td><td>NEC LAVIE</td></tr>
+    <tr><td>CPU</td><td>Intel Core i3-10110U（第10世代）</td></tr>
+    <tr><td>RAM</td><td>8GB</td></tr>
+    <tr><td>GPU</td><td>Intel UHD Graphics（CPU内蔵）</td></tr>
+    <tr><td>ストレージ</td><td>SSD 約240GB</td></tr>
+  </table>
+
+  <h3>使用ツール一覧（全16種）</h3>
+  <table>
+    <tr><th>工程</th><th>ツール名</th><th>用途</th></tr>
+    <tr><td rowspan="7">画像生成</td><td>Midjourney V7</td><td>ベース画像生成</td></tr>
+    <tr><td>Flux1.Kontext</td><td>リアル写真に変換</td></tr>
+    <tr><td>Gemini 2.5 Flash image</td><td>表情バリエーション31枚</td></tr>
+    <tr><td>Flux1.dev（Replicate）</td><td>LoRA学習</td></tr>
+    <tr><td>Imagen 3 / Imagen 4</td><td>主人公以外の画像</td></tr>
+    <tr><td>ChatGPT（DALL-E）</td><td>主人公以外の画像</td></tr>
+    <tr><td>Topaz Photo AI 4</td><td>4Kアップスケール</td></tr>
+    <tr><td rowspan="2">動画生成</td><td>Runway Gen-3/Gen-4</td><td>リップシンク＋静的シーン</td></tr>
+    <tr><td>Pixverse V5</td><td>動きの激しいシーン</td></tr>
+    <tr><td rowspan="2">音声生成</td><td>Hailuo Audio</td><td>台詞（感情表現）</td></tr>
+    <tr><td>Gemini 2.5 Pro TTS</td><td>ナレーション</td></tr>
+    <tr><td rowspan="3">音楽・効果音</td><td>SUNO</td><td>BGM（プロンプト理解力が高い）</td></tr>
+    <tr><td>Udio</td><td>BGM（不気味な曲に強い）</td></tr>
+    <tr><td>ElevenLabs</td><td>BGM＋効果音（長さの精密制御）</td></tr>
+    <tr><td rowspan="2">編集</td><td>Adobe Premiere Pro</td><td>最終編集・結合</td></tr>
+    <tr><td>Microsoft Clipchamp</td><td>音声の10秒カット（無料）</td></tr>
+  </table>
+
+  <p>
+    ポイントは各ツールの得意分野に応じた使い分けです。動画生成では静的シーンにRunway Gen-4、動きの激しいシーンにPixverse V5。音楽は3ツールで同じプロンプトを試し、最適なものを採用しました。
+  </p>
+</section>
+<div class="page-break"></div>
+
+<section class="page4">
+  <h3>制作費の内訳</h3>
+  <p>
+    総額は約84,261円です。試用のみのサービス（KlingAI等）は除外しています。
+  </p>
+
+  <table>
+    <tr><th>カテゴリ</th><th>サービス</th><th>金額（円）</th></tr>
+    <tr><td rowspan="3">画像生成</td><td>Midjourney</td><td>¥8,290</td></tr>
+    <tr><td>Black Forest Labs（Flux）</td><td>¥3,054</td></tr>
+    <tr><td>Replicate（LoRA学習 × 5回）</td><td>¥6,632</td></tr>
+    <tr><td>アップスケール</td><td>Topaz Photo AI 4</td><td>¥5,394</td></tr>
+    <tr><td rowspan="2">動画生成</td><td>Runway</td><td>¥22,947</td></tr>
+    <tr><td>Pixverse</td><td>¥6,093</td></tr>
+    <tr><td>音声・テキスト</td><td>OpenAI（ChatGPT）</td><td>¥10,076</td></tr>
+    <tr><td rowspan="2">音楽・効果音</td><td>SUNO / Udio</td><td>¥3,028</td></tr>
+    <tr><td>ElevenLabs</td><td>¥2,698</td></tr>
+    <tr><td>画像生成</td><td>Gemini</td><td>¥5,800</td></tr>
+    <tr><td>音声生成</td><td>Hailuo AI</td><td>¥1,504</td></tr>
+    <tr><td>編集</td><td>Adobe Premiere Pro</td><td>¥6,560</td></tr>
+    <tr style="font-weight:700; background: var(--accent-light);">
+      <td colspan="2" style="text-align:right; border-bottom:none;">合計</td>
+      <td style="border-bottom:none;">¥84,261</td>
+    </tr>
+  </table>
+
+  <p>
+    最大の支出は動画生成（Runway + Pixverse で約29,000円）です。39分の映像を10秒単位で生成するため、大量のクレジットを消費しました。音声生成は比較的安価で、Hailuo Audio＋Gemini TTSで全台詞をカバーしています。
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 4: 制作ワークフロー全体像
+     ============================================================ -->
+<section>
+  <h2>制作ワークフロー全体像</h2>
+
+  <p>
+    制作は「画像生成」「動画生成」「音声生成」の3系統に分かれます。
+  </p>
+
+  <div class="workflow-diagram">
+
+    <div class="flow-section">
+      <div class="flow-section-title">画像生成フロー（主人公が映るシーン）</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="tool-name">Midjourney V7</span>
+          <span class="step-desc">①ベース画像生成</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Flux1.Kontext</span>
+          <span class="step-desc">②リアル写真に変換</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Gemini Flash</span>
+          <span class="step-desc">③表情31枚を生成</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Replicate Flux1.dev</span>
+          <span class="step-desc">④LoRA学習</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">LoRA + プロンプト</span>
+          <span class="step-desc">⑤シーン画像 1280×720</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Topaz Photo AI 4</span>
+          <span class="step-desc">⑥4K化 3840×2160</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">画像生成（主人公が映らないシーン）</div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Imagen 3 / 4</span> — プロンプトに忠実</div>
+        <div class="flow-branch-item"><span class="tool-name">Gemini Flash image</span> — 背景・小道具</div>
+        <div class="flow-branch-item"><span class="tool-name">ChatGPT（DALL-E）</span> — 補助的な生成</div>
+      </div>
+      <p style="font-size:12pt; color:var(--text-muted); margin-top:0.2em;">
+        → いずれも Topaz Photo AI 4 で4Kアップスケール
+      </p>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">動画生成フロー</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="tool-name">4K画像</span>
+          <span class="step-desc">アップスケール済み</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">image-to-video</span>
+          <span class="step-desc">画像から動画へ</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Premiere Pro</span>
+          <span class="step-desc">最終編集・結合</span>
+        </div>
+      </div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Runway Gen-3 / Gen-4</span> — 会話＋静的シーン（リップシンク対応・4K出力）</div>
+        <div class="flow-branch-item"><span class="tool-name">Pixverse V5</span> — 動きの激しいシーン（Gen-4の弱点を補完）</div>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">音声フロー</div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Hailuo Audio</span> — 台詞（自然な日本語＋感情の抑揚）</div>
+        <div class="flow-branch-item"><span class="tool-name">Gemini 2.5 Pro TTS</span> — ナレーション（読み上げ向き・無料）</div>
+        <div class="flow-branch-item"><span class="tool-name">ElevenLabs</span> — 効果音（プロンプトで高品質な音を生成）</div>
+      </div>
+      <div class="flow-branch" style="margin-top:0.3em;">
+        <div class="flow-branch-item" style="font-weight:600;">BGM（3ツール比較→最適なものを採用）:</div>
+        <div class="flow-branch-item"><span class="tool-name">SUNO</span> — プロンプト理解力◎ / 暗い曲△</div>
+        <div class="flow-branch-item"><span class="tool-name">Udio</span> — 不気味な曲◎ / 長さ調整△</div>
+        <div class="flow-branch-item"><span class="tool-name">ElevenLabs</span> — 1秒単位の長さ指定◎ / クレジット消費△</div>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    最も試行錯誤を要したのはステップ④のLoRA学習です。学習画像の選定、パラメータ調整に5回の試行が必要でした。動画生成では、10秒制限下で39分の映像をどう構成するかが最大の課題でした（セクション6で詳述）。
+  </p>
+
+  <p>
+    各ツールの使い方、プロンプト全文、パラメータ設定は有料教材で公開しています。
+  </p>
+</section>
+
+<!-- ============================================================
+     SECTION 5: ぶつかった壁とその乗り越え方（3事例）
+     ============================================================ -->
+<section class="large-text kabe1" style="page-break-before: always;">
+  <h2>ぶつかった壁とその乗り越え方</h2>
+
+  <p>
+    39分の映画を完成させるまでに、数多くの技術的な壁にぶつかりました。ここでは特に重要だった3つの事例を紹介します。
+  </p>
+
+  <div class="case-card">
+    <h3>壁①：キャラクターの顔が毎回変わる</h3>
+
+    <p class="problem">何が起きたか</p>
+    <p>
+      AI画像生成では同じプロンプトでも毎回異なる顔が出力されます。映画には同一人物の一貫性が必須であり、制作の根幹に関わる問題でした。
+    </p>
+
+    <p style="text-align:center; margin:0.6em 0 0.2em;">
+      <img src="../../raw-data/KaworuYagamibase-topaz-face-upscale-4x-2.png" alt="基準となる主人公の顔" style="width:25%; height:38mm; object-fit:cover; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    </p>
+    <p class="caption" style="text-align:center;">↑ この顔が基準。すべてのシーンで維持する必要がある</p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — LoRAなし</div>
+        <img src="../../raw-data/gemini-chats/リアルな映画シーン生成プロンプト/スクリーンショット 2026-04-02 003543.png" alt="LoRAなし：別人が生成される">
+        <p class="caption">毎回異なる人物が生成される</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — LoRA導入後</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/ラストシーン/ラストシーンの電話-topaz-face-upscale-3x.png" alt="LoRA導入後：正しい顔">
+        <p class="caption">一貫した顔が維持される</p>
+      </div>
+    </div>
+
+    <p class="problem">どう解決したか</p>
+    <p>
+      WhiskやChatGPTの画像参照を試しましたが数枚で顔がずれました。最終的に、Geminiで表情31枚を生成→ReplicateAIのFlux1.devでLoRA学習させることで解決。最適パラメータまで5回の試行が必要でした。
+    </p>
+
+    <p class="inline-cta">
+      LoRA学習5回分のパラメータ記録と判断過程は有料教材に収録。詳細は後日メールでご案内します。
+    </p>
+  </div>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     壁②
+     ============================================================ -->
+<section class="large-text kabe2">
+  <div class="case-card">
+    <h3>壁②：LoRAが「きれいな画像」しか生成しない</h3>
+
+    <p class="problem">何が起きたか</p>
+    <p>
+      LoRAでキャラクターの一貫性は確保できましたが、ホラー演出（黒い液体で覆われた顔等）がまったく生成できなくなりました。「black paint」と指示しても、AIがクリーンな状態を維持しようとします。
+    </p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — LoRAのみ</div>
+        <img src="../../raw-data/gemini-chats/LoRaプロンプト編集とシーン作成/スクリーンショット 2026-04-02 012225.png" alt="LoRAだけではホラー表現が不十分">
+        <p class="caption">汚れ表現が出ない</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — ChatGPT画像生成</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/ホラーショットの準備/顔上向き本番-topaz-sharpen-denoise-upscale-3840w.png" alt="ChatGPTで生成した黒塗り表現">
+        <p class="caption">生々しい質感を実現</p>
+      </div>
+    </div>
+
+    <p class="problem">どう解決したか</p>
+    <p>
+      根本原因は25枚の「クリーンな画像」で学習させたことでした。ChatGPTの画像生成で黒塗りの人物画像を直接作成。「organic mass of meat」「charred」「coagulated」といった有機的テクスチャ表現で生々しい質感を引き出しました。
+    </p>
+
+    <p class="inline-cta">
+      テスト結果とプロンプト全文、LoRA v1〜v5の進化記録は有料教材に収録。詳細は後日メールでご案内します。
+    </p>
+  </div>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     壁③
+     ============================================================ -->
+<section class="large-text">
+  <div class="case-card">
+    <h3>壁③：LoRA以前に試した方法はすべて失敗した</h3>
+
+    <p class="problem">何が起きたか</p>
+    <p>
+      LoRA学習にたどり着く前に、Google Whisk経由でGeminiを使ったキャラクター一貫性の維持を試みました。結果は、髪型・顔立ちが毎回変わり、映画品質には達しませんでした。
+    </p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — Whisk＋Gemini</div>
+        <img src="../../raw-data/Whiskの画像/スクリーンショット 2026-04-03 173054.png" alt="Whisk：顔が安定しない">
+        <p class="caption">顔が安定しない</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — LoRA導入後</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/立って電話/もしもし-topaz-face-upscale-2160h.png" alt="LoRA導入後：一貫した人物">
+        <p class="caption">一貫した人物を維持</p>
+      </div>
+    </div>
+
+    <p class="problem">試したが失敗した方法</p>
+    <p>
+      技術仕様を詳細に記述したプロンプト（「85mm lens」等）ではAIが技術再現に注力し顔の一致度が低下。Geminiチャットに直接画像を貼る方がWhiskより高精度でしたが、ウォーターマークが入る問題がありました。最終的にLoRA学習が唯一の根本解決策でした。
+    </p>
+
+    <p class="inline-cta">
+      Whiskで試した5種類のプロンプトとテスト結果は有料教材に収録。詳細は後日メールでご案内します。
+    </p>
+  </div>
+
+  <p>
+    ここで紹介した3つのほかにも、コンテンツ規制への対処、暗い画像のアップスケール破綻、動画生成AIの動作制限など、計7つの壁を乗り越えています。残り4つの壁と解決策は有料教材に完全版として収録しています。
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 6: 短尺→長尺の壁
+     ============================================================ -->
+<section class="large-text page-tantanjaku">
+  <h2>短尺から長尺への壁</h2>
+
+  <p>
+    AI動画生成ツールの出力は最長10秒。この制約下で39分（2,340秒）をどう構成したのか。AI映像制作者全員がぶつかる最大の課題です。
+  </p>
+
+  <h3>問題の本質</h3>
+  <p>
+    Runway Gen-4は最長10秒の動画しか生成できません。延長機能は色味やキャラクターの動きが急変します。単純に並べるとセリフと映像のつなぎ目が一致せず不自然になります。
+  </p>
+
+  <h3>解決策：順動画・逆動画リップシンク手法</h3>
+  <p>
+    10秒の「順動画」と逆再生版「逆動画」を交互に配置する手法です。室内でほぼ静止している映像であれば、逆再生の違和感は最小限です。
+  </p>
+
+  <table>
+    <tr><th>Step</th><th>内容</th></tr>
+    <tr><td>1</td><td>黙っている10秒の「順動画」をRunwayで生成</td></tr>
+    <tr><td>2</td><td>逆再生版「逆動画」をリバース機能で作成</td></tr>
+    <tr><td>3</td><td>Hailuo Audioでセリフ＋沈黙=10秒の音声を作成</td></tr>
+    <tr><td>4</td><td>Clipchampで音声を正確に10.0秒にカット</td></tr>
+    <tr><td>5</td><td>10秒音声をRunwayにアップロード→リップシンク動画</td></tr>
+    <tr><td>6</td><td>Premiere Proで順→逆を交互に配置</td></tr>
+  </table>
+
+  <p>
+    10秒×2本＝20秒の連続映像が作れます。これを繰り返し、最長約2分の長回しでも映像の連続性とリップシンクを両立させました。
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 6 continued
+     ============================================================ -->
+<section class="large-text page-sequence">
+  <h3>39分を17シーケンスに分割して管理</h3>
+
+  <p>
+    39分の映像を17のシーケンスに分割し、それぞれ独立したプロジェクトとして管理しました。通話・ホラー・ナレーション等の性質に応じて最適な手法を割り当てています。
+  </p>
+
+  <div class="spec-box">
+    <div class="spec-item">
+      <span class="spec-label">総シーケンス数</span>
+      <span class="spec-value">17</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">総尺</span>
+      <span class="spec-value">39分（約2,340秒）</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">10秒動画の推定本数</span>
+      <span class="spec-value">約234本以上</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">編集ソフト</span>
+      <span class="spec-value">Adobe Premiere Pro</span>
+    </div>
+  </div>
+
+  <h3>事前計算の重要性</h3>
+  <p>
+    セリフの長さ、返答の間、感情テンポを事前に緻密計算してから制作に入ることが必須でした。SRTファイル（字幕データ）で秒単位の設計を行っています。
+  </p>
+
+  <p>
+    Hailuo Audioでは <code>&lt;#2.9#&gt;</code> 構文で2.9秒の沈黙を挿入できます。「沈黙＋セリフ＋沈黙＝10.0秒」に調整し、Runwayにアップロードするとセリフ部分だけ口が動くリップシンク動画が生成されます。
+  </p>
+
+  <p>
+    弱点もあります。照明変化で逆再生が若干目立つこと、Runwayが正確に10秒出力しないケースがあること。完璧ではありませんが、現時点でAI映画の長尺化に使える現実的な手法です。
+  </p>
+
+  <p class="inline-cta">
+    SRTタイムコード計算の実例、Hailuo Audio沈黙構文の使い方、全17シーケンスの設計テンプレートは有料教材に収録。詳細は後日メールでご案内します。
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 7: 次のステップ
+     ============================================================ -->
+<section class="cta-section large-text">
+  <h2>次のステップ</h2>
+
+  <p style="font-size:16pt; margin-bottom:1.2em;">
+    ここまでお読みいただきありがとうございます。<br>
+    制作の全体像と主要な壁を紹介しましたが、<br>
+    プロンプト・パラメータ・テンプレートは<br>
+    まだお伝えしきれていません。
+  </p>
+
+  <h3 style="text-align:center; color:var(--accent); margin-top:1em;">有料教材に収録している内容</h3>
+
+  <ul class="paid-content-list">
+    <li>Runway Gen-4 シーン別プロンプト 約62本<br><span class="li-sub">全シーンの英語プロンプト＋設計意図</span></li>
+    <li>LoRA学習パラメータ完全記録（v1〜v5）<br><span class="li-sub">各回の変更理由と結果</span></li>
+    <li>BGM生成プロンプト 全12曲<br><span class="li-sub">SUNO / Udio / ElevenLabsの比較結果付き</span></li>
+    <li>Hailuo Audio ボイス設定 7キャラクター分<br><span class="li-sub">ピッチ・音量・Emotion設定</span></li>
+    <li>ElevenLabs 効果音プロンプト 全24種<br><span class="li-sub">採用理由＋不採用7種の失敗分析付き</span></li>
+    <li>Before/After画像 全ペア＋技術解説<br><span class="li-sub">本資料未掲載の4事例を含む</span></li>
+    <li>長尺管理テンプレート<br><span class="li-sub">SRTタイムコード計算シート＋順逆動画設計の実例</span></li>
+  </ul>
+
+  <div class="cta-closing">
+    登録いただいたメールアドレスに、<br>詳細をお届けします。
+  </div>
+
+  <p style="margin-top:1.5em; font-size:12pt; color:var(--text-muted);">
+    吉川晃騎 ― 京都大学 理学部<br>
+    HALUCINATION（2025）監督・脚本・制作
+  </p>
+</section>
+
+</body>
+</html>

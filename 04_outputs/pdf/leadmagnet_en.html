@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HALUCINATION — The Complete Record of an AI Film Production</title>
+<style>
+  /* ========================================
+     BASE STYLES — A4 Layout Rules
+     ======================================== */
+  @page {
+    size: A4;
+    margin: 25mm;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 18pt;
+    line-height: 1.5;
+    font-family: "Helvetica Neue", "Arial", "Segoe UI", sans-serif;
+    color: #1A1A1A;
+    background: #FFFFFF;
+  }
+
+  body {
+    max-width: 210mm;
+    margin: 0 auto;
+  }
+
+  /* ========================================
+     TYPOGRAPHY HIERARCHY
+     ======================================== */
+  h1 {
+    font-size: 36pt;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0D0D0D;
+    margin-bottom: 0.4em;
+  }
+
+  h2 {
+    font-size: 36pt;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #0D0D0D;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.2em;
+    border-bottom: 3px solid #3A7CA5;
+  }
+
+  h3 {
+    font-size: 24pt;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #1A1A1A;
+    margin-bottom: 0.4em;
+    margin-top: 0.8em;
+  }
+
+  p {
+    font-size: 18pt;
+    line-height: 1.5;
+    margin-bottom: 0.8em;
+    color: #222222;
+  }
+
+  .caption {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #666666;
+    margin-top: 0.3em;
+  }
+
+  /* ========================================
+     ACCENT COLOR — Cool blue
+     ======================================== */
+  :root {
+    --accent: #3A7CA5;
+    --accent-light: #E8F1F8;
+    --bg-light: #F7F8FA;
+    --text-dark: #1A1A1A;
+    --text-body: #222222;
+    --text-muted: #666666;
+  }
+
+  /* ========================================
+     PAGE BREAKS
+     ======================================== */
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* ========================================
+     COVER PAGE (Section 1)
+     ======================================== */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 247mm;
+    text-align: center;
+    padding-top: 5mm;
+  }
+
+  .cover img {
+    width: 100%;
+    max-height: 200mm;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 0.4em;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+  }
+
+  .cover .subtitle {
+    font-size: 28pt;
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.2em;
+    line-height: 1.3;
+  }
+
+  .cover .author {
+    font-size: 18pt;
+    color: var(--text-muted);
+    margin-top: 0.1em;
+  }
+
+  /* ========================================
+     TABLES
+     ======================================== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6em 0 0.8em;
+    font-size: 13pt;
+  }
+
+  th {
+    background: var(--accent);
+    color: #FFFFFF;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.3em 0.5em;
+    font-size: 13pt;
+  }
+
+  td {
+    padding: 0.25em 0.5em;
+    border-bottom: 1px solid #E0E0E0;
+    vertical-align: top;
+    font-size: 13pt;
+  }
+
+  tr:nth-child(even) td {
+    background: var(--bg-light);
+  }
+
+  /* ========================================
+     IMAGES
+     ======================================== */
+  .still-gallery {
+    display: flex;
+    gap: 4px;
+    margin: 0.8em 0;
+  }
+
+  .still-gallery img {
+    flex: 1;
+    height: 250px;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .before-after {
+    display: flex;
+    gap: 10px;
+    margin: 0.5em 0 0.3em;
+    align-items: flex-start;
+  }
+
+  .before-after .ba-col {
+    flex: 1;
+    text-align: center;
+  }
+
+  .before-after img {
+    width: 100%;
+    height: 68mm;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .before-after .ba-label {
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.3em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ========================================
+     SPEC BOX
+     ======================================== */
+  .spec-box {
+    background: var(--bg-light);
+    border-left: 4px solid var(--accent);
+    padding: 0.8em 1em;
+    margin: 0.8em 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .spec-box .spec-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25em 0;
+    border-bottom: 1px solid #E8E8E8;
+    font-size: 14pt;
+  }
+
+  .spec-box .spec-item:last-child {
+    border-bottom: none;
+  }
+
+  .spec-box .spec-label {
+    color: var(--text-muted);
+    font-size: 13pt;
+  }
+
+  .spec-box .spec-value {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ========================================
+     INLINE CTA (controlled, subtle)
+     ======================================== */
+  .inline-cta {
+    font-size: 16pt;
+    color: var(--accent);
+    font-style: italic;
+    margin-top: 0.5em;
+    padding: 0.4em 0;
+    border-top: 1px dashed #CCCCCC;
+  }
+
+  /* ========================================
+     ERROR CASE CARD
+     ======================================== */
+  .case-card {
+    background: var(--bg-light);
+    border-radius: 6px;
+    padding: 1em;
+    margin: 0.5em 0;
+    border: 1px solid #E0E0E0;
+  }
+
+  .case-card h3 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 30pt;
+  }
+
+  .case-card .problem {
+    font-weight: 600;
+    font-size: 18pt;
+  }
+
+  /* ========================================
+     WORKFLOW DIAGRAM
+     ======================================== */
+  .workflow-diagram {
+    margin: 0.3em 0;
+  }
+
+  .flow-section {
+    margin-bottom: 0.5em;
+  }
+
+  .flow-section-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.2em;
+    padding: 0.2em 0.5em;
+    background: var(--accent-light);
+    border-radius: 3px;
+    text-align: center;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    margin: 0.2em 0;
+  }
+
+  .flow-step {
+    background: #FFFFFF;
+    border: 1px solid #D0D0D0;
+    border-radius: 4px;
+    padding: 0.2em 0.6em;
+    font-size: 13pt;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    width: 80%;
+    text-align: center;
+  }
+
+  .flow-step .tool-name {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 13pt;
+    white-space: nowrap;
+    min-width: 100px;
+  }
+
+  .flow-step .step-desc {
+    font-size: 12pt;
+    color: var(--text-muted);
+  }
+
+  .flow-arrow {
+    font-size: 14pt;
+    color: var(--accent);
+    padding: 0;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .flow-branch {
+    border-left: 3px solid var(--accent);
+    padding-left: 0.6em;
+    margin: 0.2em 0 0.2em 0.6em;
+  }
+
+  .flow-branch-item {
+    font-size: 12pt;
+    margin-bottom: 0.2em;
+    color: var(--text-body);
+  }
+
+  .flow-branch-item .tool-name {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ========================================
+     SECTION 7: CTA PAGE
+     ======================================== */
+  .cta-section {
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    text-align: center;
+    border-bottom: none;
+  }
+
+  .paid-content-list {
+    text-align: left;
+    margin: 1em auto;
+    max-width: 145mm;
+    padding: 0;
+  }
+
+  .paid-content-list li {
+    font-size: 18pt;
+    margin-bottom: 1em;
+    padding: 0.6em 0.8em 0.6em 1em;
+    list-style: none;
+    position: relative;
+    background: var(--bg-light);
+    border-radius: 5px;
+    border-left: 4px solid var(--accent);
+  }
+
+  .paid-content-list li::before {
+    content: none;
+  }
+
+  .paid-content-list .li-sub {
+    font-size: 14pt;
+    color: var(--text-muted);
+  }
+
+  /* ========================================
+     LARGE TEXT — Sections 5+
+     ======================================== */
+  .large-text p {
+    font-size: 20pt;
+  }
+
+  .large-text h2 {
+    font-size: 36pt;
+  }
+
+  .large-text h3 {
+    font-size: 26pt;
+  }
+
+  .large-text .case-card p {
+    font-size: 20pt;
+  }
+
+  .large-text .spec-box .spec-item {
+    font-size: 16pt;
+  }
+
+  .large-text .spec-box .spec-label {
+    font-size: 15pt;
+  }
+
+  .large-text table {
+    font-size: 15pt;
+  }
+
+  .large-text th, .large-text td {
+    font-size: 15pt;
+  }
+
+  .cta-closing {
+    font-size: 20pt;
+    color: var(--text-dark);
+    margin-top: 1.5em;
+    font-weight: 600;
+    background: var(--accent-light);
+    padding: 1em 1.5em;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  /* ========================================
+     PAGE-SPECIFIC OVERRIDES
+     ======================================== */
+
+  /* Page 2: body text 20pt */
+  .page2 p {
+    font-size: 20pt;
+  }
+
+  /* Page 3: text 19pt, table 14pt */
+  .page3 p {
+    font-size: 19pt;
+  }
+  .page3 table, .page3 th, .page3 td {
+    font-size: 14pt;
+  }
+
+  /* Page 4: text & table enlarged */
+  .page4 p {
+    font-size: 22pt;
+  }
+  .page4 h3 {
+    font-size: 28pt;
+  }
+  .page4 table, .page4 th, .page4 td {
+    font-size: 17pt;
+  }
+
+  /* Challenge 1: compact to fit single page */
+  .kabe1 h2 {
+    font-size: 30pt;
+    margin-bottom: 0.3em;
+  }
+  .kabe1 p {
+    font-size: 17pt;
+    margin-bottom: 0.5em;
+  }
+  .kabe1 .case-card {
+    padding: 0.7em;
+    margin: 0.3em 0;
+  }
+  .kabe1 .case-card h3 {
+    font-size: 26pt;
+  }
+  .kabe1 .problem {
+    font-size: 15pt;
+  }
+  .kabe1 .before-after img {
+    height: 55mm;
+  }
+  .kabe1 .before-after {
+    margin: 0.3em 0 0.2em;
+  }
+  .kabe1 .caption {
+    font-size: 10pt;
+    margin-top: 0.1em;
+  }
+  .kabe1 .inline-cta {
+    font-size: 13pt;
+    padding: 0.2em 0;
+    margin-top: 0.3em;
+  }
+  /* CTA page: font -1pt, margins tightened */
+  .cta-section .paid-content-list li {
+    font-size: 17pt;
+    margin-bottom: 0.7em;
+    padding: 0.5em 0.7em 0.5em 0.9em;
+  }
+  .cta-section .paid-content-list .li-sub {
+    font-size: 13pt;
+  }
+  .cta-section .cta-closing {
+    font-size: 19pt;
+    margin-top: 1em;
+    padding: 0.8em 1.2em;
+  }
+
+  /* Challenge 2: body text +2pt */
+  .kabe2 p {
+    font-size: 22pt;
+  }
+  .kabe2 .case-card p {
+    font-size: 22pt;
+  }
+  .kabe2 .problem {
+    font-size: 20pt;
+  }
+
+  /* Short-to-long page: body text enlarged */
+  .page-tantanjaku p {
+    font-size: 24pt;
+  }
+  .page-tantanjaku h3 {
+    font-size: 30pt;
+  }
+  .page-tantanjaku table, .page-tantanjaku th, .page-tantanjaku td {
+    font-size: 18pt;
+  }
+
+  /* 17-sequence page: body text enlarged */
+  .page-sequence p {
+    font-size: 23pt;
+  }
+  .page-sequence h3 {
+    font-size: 29pt;
+  }
+  .page-sequence .spec-box .spec-item {
+    font-size: 19pt;
+  }
+  .page-sequence .spec-box .spec-label {
+    font-size: 17pt;
+  }
+  .page-sequence .inline-cta {
+    font-size: 17pt;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SECTION 1: COVER
+     ============================================================ -->
+<div class="cover">
+  <img src="../../raw-data/正式ポスター.jpg" alt="HALUCINATION Official Poster">
+
+  <div class="subtitle">
+    The Complete Record of Making a 39-Minute<br>
+    Psychological Thriller — 100% AI-Generated, Solo
+  </div>
+  <div class="author">Koki Yoshikawa — Kyoto University, Faculty of Science</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 2: About the Film
+     ============================================================ -->
+<section class="page2">
+  <h2>About the Film</h2>
+
+  <p>
+    In the summer of 2025, I completed a 39-minute feature film in about one month. Cast, locations, and cameras were all replaced by AI — produced entirely from a single laptop at home.
+  </p>
+
+  <div class="spec-box">
+    <div class="spec-item">
+      <span class="spec-label">Runtime</span>
+      <span class="spec-value">39 min (feature-length)</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Video & Audio</span>
+      <span class="spec-value">100% AI-generated</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Budget</span>
+      <span class="spec-value">¥84,261 / ~$581</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Crew</span>
+      <span class="spec-value">1 person (planning through editing)</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Hardware</span>
+      <span class="spec-value">NEC LAVIE / Core i3 / 8 GB RAM / No GPU</span>
+    </div>
+  </div>
+
+  <p>
+    The genre is psychological suspense. A young journalist investigating a terrorist incident from a small apartment gradually finds herself consumed by the darkness of the human subconscious. It spans 17 sequences, 8 characters, 12 BGM tracks, and 24 sound effects.
+  </p>
+  <p>
+    The concept dates to 2017, when I watched Alex Garland's <em>Ex Machina</em> in high school. After eight years, I started production in the summer of 2025 as AI technology matured.
+  </p>
+
+  <div class="still-gallery">
+    <img src="../../raw-data/映画の準備と後処理/画像/水を飲む/水を飲む２回-topaz-face-upscale-3x.png" alt="Daily life scene">
+    <img src="../../raw-data/映画の準備と後処理/画像/ホラーショットの準備/満足７本番-topaz-sharpen-upscale-3x.png" alt="Hallucination scene">
+  </div>
+  <p class="caption">Left: Daily life scene — Right: Hallucination scene — All photorealistic footage generated by AI</p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 3: Production Setup & Cost
+     ============================================================ -->
+<section class="page3">
+  <h2>Production Setup & Cost</h2>
+
+  <h3>PC Specs</h3>
+  <p>
+    I used an ordinary laptop bought when I entered university. No dedicated GPU — all production ran on cloud-based AI services.
+  </p>
+
+  <table>
+    <tr><th>Item</th><th>Specification</th></tr>
+    <tr><td>Model</td><td>NEC LAVIE</td></tr>
+    <tr><td>CPU</td><td>Intel Core i3-10110U (10th gen)</td></tr>
+    <tr><td>RAM</td><td>8 GB</td></tr>
+    <tr><td>GPU</td><td>Intel UHD Graphics (integrated)</td></tr>
+    <tr><td>Storage</td><td>~240 GB SSD</td></tr>
+  </table>
+
+  <h3>Tools Used (16 Total)</h3>
+  <table>
+    <tr><th>Stage</th><th>Tool</th><th>Purpose</th></tr>
+    <tr><td rowspan="7">Image Gen</td><td>Midjourney V7</td><td>Base image generation</td></tr>
+    <tr><td>Flux1.Kontext</td><td>Photorealistic conversion</td></tr>
+    <tr><td>Gemini 2.5 Flash image</td><td>31 expression variants</td></tr>
+    <tr><td>Flux1.dev (Replicate)</td><td>LoRA training</td></tr>
+    <tr><td>Imagen 3 / Imagen 4</td><td>Non-protagonist images</td></tr>
+    <tr><td>ChatGPT (DALL-E)</td><td>Non-protagonist images</td></tr>
+    <tr><td>Topaz Photo AI 4</td><td>4K upscaling</td></tr>
+    <tr><td rowspan="2">Video Gen</td><td>Runway Gen-3/Gen-4</td><td>Lip-sync + static scenes</td></tr>
+    <tr><td>Pixverse V5</td><td>High-motion scenes</td></tr>
+    <tr><td rowspan="2">Voice Gen</td><td>Hailuo Audio</td><td>Dialogue (emotional delivery)</td></tr>
+    <tr><td>Gemini 2.5 Pro TTS</td><td>Narration</td></tr>
+    <tr><td rowspan="3">Music & SFX</td><td>SUNO</td><td>BGM (strong prompt comprehension)</td></tr>
+    <tr><td>Udio</td><td>BGM (excels at eerie tracks)</td></tr>
+    <tr><td>ElevenLabs</td><td>BGM + SFX (precise duration control)</td></tr>
+    <tr><td rowspan="2">Editing</td><td>Adobe Premiere Pro</td><td>Final editing & assembly</td></tr>
+    <tr><td>Microsoft Clipchamp</td><td>10-second audio trimming (free)</td></tr>
+  </table>
+
+  <p>
+    The key was matching each tool to its strength: Runway Gen-4 for static scenes, Pixverse V5 for high-motion. For music, I tested the same prompt across three tools and picked the best.
+  </p>
+</section>
+<div class="page-break"></div>
+
+<section class="page4">
+  <h3>Cost Breakdown</h3>
+  <p>
+    Total: ¥84,261 / ~$581. Trial-only services (e.g. KlingAI) excluded.
+  </p>
+
+  <table>
+    <tr><th>Category</th><th>Service</th><th>Cost</th></tr>
+    <tr><td rowspan="3">Image Gen</td><td>Midjourney</td><td>¥8,290 / ~$57</td></tr>
+    <tr><td>Black Forest Labs (Flux)</td><td>¥3,054 / ~$21</td></tr>
+    <tr><td>Replicate (LoRA × 5 runs)</td><td>¥6,632 / ~$46</td></tr>
+    <tr><td>Upscaling</td><td>Topaz Photo AI 4</td><td>¥5,394 / ~$37</td></tr>
+    <tr><td rowspan="2">Video Gen</td><td>Runway</td><td>¥22,947 / ~$158</td></tr>
+    <tr><td>Pixverse</td><td>¥6,093 / ~$42</td></tr>
+    <tr><td>Voice & Text</td><td>OpenAI (ChatGPT)</td><td>¥10,076 / ~$69</td></tr>
+    <tr><td rowspan="2">Music & SFX</td><td>SUNO / Udio</td><td>¥3,028 / ~$21</td></tr>
+    <tr><td>ElevenLabs</td><td>¥2,698 / ~$19</td></tr>
+    <tr><td>Image Gen</td><td>Gemini</td><td>¥5,800 / ~$40</td></tr>
+    <tr><td>Voice Gen</td><td>Hailuo AI</td><td>¥1,504 / ~$10</td></tr>
+    <tr><td>Editing</td><td>Adobe Premiere Pro</td><td>¥6,560 / ~$45</td></tr>
+    <tr style="font-weight:700; background: var(--accent-light);">
+      <td colspan="2" style="text-align:right; border-bottom:none;">Total</td>
+      <td style="border-bottom:none;">¥84,261 / ~$581</td>
+    </tr>
+  </table>
+
+  <p>
+    The largest cost was video generation (Runway + Pixverse: ~¥29,000 / ~$200) — generating 39 minutes in 10-second clips consumed heavy credits. Voice was cheap: Hailuo Audio + Gemini TTS covered all dialogue.
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 4: Production Workflow Overview
+     ============================================================ -->
+<section>
+  <h2>Production Workflow</h2>
+
+  <p>
+    Production splits into three tracks: image, video, and audio generation.
+  </p>
+
+  <div class="workflow-diagram">
+
+    <div class="flow-section">
+      <div class="flow-section-title">Image Pipeline (Protagonist Scenes)</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="tool-name">Midjourney V7</span>
+          <span class="step-desc">① Base image generation</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Flux1.Kontext</span>
+          <span class="step-desc">② Photorealistic conversion</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Gemini Flash</span>
+          <span class="step-desc">③ Generate 31 expressions</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Replicate Flux1.dev</span>
+          <span class="step-desc">④ LoRA training</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">LoRA + Prompt</span>
+          <span class="step-desc">⑤ Scene images 1280×720</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Topaz Photo AI 4</span>
+          <span class="step-desc">⑥ Upscale to 4K (3840×2160)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">Image Pipeline (Non-Protagonist Scenes)</div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Imagen 3 / 4</span> — Faithful to prompts</div>
+        <div class="flow-branch-item"><span class="tool-name">Gemini Flash image</span> — Backgrounds & props</div>
+        <div class="flow-branch-item"><span class="tool-name">ChatGPT (DALL-E)</span> — Supplementary generation</div>
+      </div>
+      <p style="font-size:12pt; color:var(--text-muted); margin-top:0.2em;">
+        → All upscaled to 4K via Topaz Photo AI 4
+      </p>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">Video Pipeline</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="tool-name">4K Image</span>
+          <span class="step-desc">Upscaled</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">image-to-video</span>
+          <span class="step-desc">Image to video</span>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-step">
+          <span class="tool-name">Premiere Pro</span>
+          <span class="step-desc">Final editing & assembly</span>
+        </div>
+      </div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Runway Gen-3 / Gen-4</span> — Dialogue + static scenes (lip-sync, 4K output)</div>
+        <div class="flow-branch-item"><span class="tool-name">Pixverse V5</span> — High-motion scenes (compensates for Gen-4 limitations)</div>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <div class="flow-section-title">Audio Pipeline</div>
+      <div class="flow-branch">
+        <div class="flow-branch-item"><span class="tool-name">Hailuo Audio</span> — Dialogue (natural Japanese + emotional nuance)</div>
+        <div class="flow-branch-item"><span class="tool-name">Gemini 2.5 Pro TTS</span> — Narration (reading-optimized, free)</div>
+        <div class="flow-branch-item"><span class="tool-name">ElevenLabs</span> — Sound effects (high-quality from prompts)</div>
+      </div>
+      <div class="flow-branch" style="margin-top:0.3em;">
+        <div class="flow-branch-item" style="font-weight:600;">BGM (compared 3 tools → picked the best):</div>
+        <div class="flow-branch-item"><span class="tool-name">SUNO</span> — Strong prompt comprehension / weak on dark tones</div>
+        <div class="flow-branch-item"><span class="tool-name">Udio</span> — Excels at eerie tracks / imprecise duration</div>
+        <div class="flow-branch-item"><span class="tool-name">ElevenLabs</span> — Second-level duration control / higher credit cost</div>
+      </div>
+    </div>
+  </div>
+
+  <p>
+    The most labor-intensive step was ④ LoRA training — five iterations to find optimal parameters. For video, the central challenge was building 39 minutes from 10-second clips (Section 6).
+  </p>
+
+  <p>
+    Full prompts, parameter settings, and usage guides for each tool are in the paid course.
+  </p>
+</section>
+
+<!-- ============================================================
+     SECTION 5: Challenges and How I Overcame Them
+     ============================================================ -->
+<section class="large-text kabe1" style="page-break-before: always;">
+  <h2>Challenges and Solutions</h2>
+
+  <p>
+    Completing a 39-minute film meant hitting numerous technical walls. Here are the three most critical.
+  </p>
+
+  <div class="case-card">
+    <h3>Challenge 1: The Face Changed Every Time</h3>
+
+    <p class="problem">What happened</p>
+    <p>
+      AI image generators produce a different face every run, even with the same prompt. A film requires consistent identity — this was a fundamental blocker.
+    </p>
+
+    <p style="text-align:center; margin:0.6em 0 0.2em;">
+      <img src="../../raw-data/KaworuYagamibase-topaz-face-upscale-4x-2.png" alt="Reference face for the protagonist" style="width:25%; height:38mm; object-fit:cover; border-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    </p>
+    <p class="caption" style="text-align:center;">↑ The reference face. Every scene had to preserve this identity.</p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — No LoRA</div>
+        <img src="../../raw-data/gemini-chats/リアルな映画シーン生成プロンプト/スクリーンショット 2026-04-02 003543.png" alt="Without LoRA: different person each time">
+        <p class="caption">A different person generated each time</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — With LoRA</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/ラストシーン/ラストシーンの電話-topaz-face-upscale-3x.png" alt="With LoRA: consistent face">
+        <p class="caption">Consistent face maintained</p>
+      </div>
+    </div>
+
+    <p class="problem">How I solved it</p>
+    <p>
+      Whisk and ChatGPT image referencing drifted after a few images. Solution: generate 31 expressions with Gemini, then LoRA-train on Replicate's Flux1.dev. Five runs to find optimal parameters.
+    </p>
+
+    <p class="inline-cta">
+      Full parameter logs from all 5 LoRA training runs and decision rationale are in the paid course. Details will be sent to the email address you registered.
+    </p>
+  </div>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     Challenge 2
+     ============================================================ -->
+<section class="large-text kabe2">
+  <div class="case-card">
+    <h3>Challenge 2: LoRA Only Produced "Clean" Images</h3>
+
+    <p class="problem">What happened</p>
+    <p>
+      LoRA preserved character consistency, but horror effects (face covered in dark liquid) became impossible. Even with "black paint" in the prompt, the model defaulted to clean outputs.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — LoRA Only</div>
+        <img src="../../raw-data/gemini-chats/LoRaプロンプト編集とシーン作成/スクリーンショット 2026-04-02 012225.png" alt="LoRA alone: no horror effects">
+        <p class="caption">Dirt/damage effects wouldn't render</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — ChatGPT Image Gen</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/ホラーショットの準備/顔上向き本番-topaz-sharpen-denoise-upscale-3840w.png" alt="ChatGPT-generated dark paint effect">
+        <p class="caption">Visceral texture achieved</p>
+      </div>
+    </div>
+
+    <p class="problem">How I solved it</p>
+    <p>
+      Root cause: training on 25 "clean" images biased the model. I used ChatGPT image gen to create dark-paint images directly, using terms like "organic mass of meat," "charred," "coagulated" for visceral texture.
+    </p>
+
+    <p class="inline-cta">
+      Test results, full prompts, and the LoRA v1–v5 evolution log are in the paid course. Details will be sent to the email address you registered.
+    </p>
+  </div>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     Challenge 3
+     ============================================================ -->
+<section class="large-text">
+  <div class="case-card">
+    <h3>Challenge 3: Every Method Before LoRA Failed</h3>
+
+    <p class="problem">What happened</p>
+    <p>
+      Before LoRA, I tried character consistency via Google Whisk + Gemini. Hair and facial features varied every time — far below film quality.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-col">
+        <div class="ba-label">Before — Whisk + Gemini</div>
+        <img src="../../raw-data/Whiskの画像/スクリーンショット 2026-04-03 173054.png" alt="Whisk: unstable face">
+        <p class="caption">Face unstable across generations</p>
+      </div>
+      <div class="ba-col">
+        <div class="ba-label">After — With LoRA</div>
+        <img src="../../raw-data/映画の準備と後処理/画像/立って電話/もしもし-topaz-face-upscale-2160h.png" alt="With LoRA: consistent character">
+        <p class="caption">Consistent character maintained</p>
+      </div>
+    </div>
+
+    <p class="problem">Methods that failed</p>
+    <p>
+      Technical prompts ("85mm lens," etc.) made the AI focus on camera specs, reducing facial accuracy. Pasting images into Gemini chat beat Whisk but added watermarks. LoRA was the only viable long-term solution.
+    </p>
+
+    <p class="inline-cta">
+      Five Whisk prompt variations and their test results are in the paid course. Details will be sent to the email address you registered.
+    </p>
+  </div>
+
+  <p>
+    Beyond these three, I overcame four more: content policy restrictions, dark-image upscale artifacts, video motion limits, and others. All seven are documented in the paid course.
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 6: The Short-to-Long Challenge
+     ============================================================ -->
+<section class="large-text page-tantanjaku">
+  <h2>The Short-to-Long Challenge</h2>
+
+  <p>
+    AI video tools output max 10 seconds per clip. Building 39 minutes (2,340 sec) under this limit is the core challenge every AI filmmaker faces.
+  </p>
+
+  <h3>The Core Problem</h3>
+  <p>
+    Runway Gen-4 caps at 10 seconds. Its extend feature causes abrupt color/motion shifts. Naive concatenation breaks dialogue-visual sync.
+  </p>
+
+  <h3>Solution: Forward-Reverse Lip-Sync</h3>
+  <p>
+    Alternate a 10-sec "forward" clip with its reverse. For mostly-static indoor footage, the reverse is nearly imperceptible.
+  </p>
+
+  <table>
+    <tr><th>Step</th><th>Action</th></tr>
+    <tr><td>1</td><td>Generate a silent 10-sec "forward" clip in Runway</td></tr>
+    <tr><td>2</td><td>Create a reversed version using the reverse function</td></tr>
+    <tr><td>3</td><td>Produce dialogue + silence = 10 sec audio via Hailuo Audio</td></tr>
+    <tr><td>4</td><td>Trim audio to exactly 10.0 sec in Clipchamp</td></tr>
+    <tr><td>5</td><td>Upload 10-sec audio to Runway → lip-sync video</td></tr>
+    <tr><td>6</td><td>Interleave forward → reverse in Premiere Pro</td></tr>
+  </table>
+
+  <p>
+    Result: 10 sec × 2 = 20 seconds per cycle. Repeating this, I achieved long takes of ~2 minutes with visual continuity and lip-sync intact.
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 6 continued
+     ============================================================ -->
+<section class="large-text page-sequence">
+  <h3>Managing 39 Minutes as 17 Sequences</h3>
+
+  <p>
+    I split the 39-minute film into 17 sequences, each managed independently and assigned the optimal method by type — dialogue, horror, narration, etc.
+  </p>
+
+  <div class="spec-box">
+    <div class="spec-item">
+      <span class="spec-label">Total Sequences</span>
+      <span class="spec-value">17</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Total Runtime</span>
+      <span class="spec-value">39 min (~2,340 sec)</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Estimated 10-sec Clips</span>
+      <span class="spec-value">234+</span>
+    </div>
+    <div class="spec-item">
+      <span class="spec-label">Editing Software</span>
+      <span class="spec-value">Adobe Premiere Pro</span>
+    </div>
+  </div>
+
+  <h3>Pre-Calculation Was Essential</h3>
+  <p>
+    Dialogue length, pauses, and emotional pacing had to be calculated precisely before production. I used SRT files for second-level timing design.
+  </p>
+
+  <p>
+    Hailuo Audio's <code>&lt;#2.9#&gt;</code> syntax inserts 2.9 sec of silence. "Silence + dialogue + silence = 10.0 sec" uploaded to Runway triggers lip movement only during speech.
+  </p>
+
+  <p>
+    Limitations exist: lighting changes make reversal slightly visible, and Runway doesn't always output exactly 10 sec. Not perfect, but the most practical long-form AI filmmaking method available.
+  </p>
+
+  <p class="inline-cta">
+    SRT timecode examples, Hailuo silence syntax guide, and all 17 sequence templates are in the paid course. Details will be sent to the email address you registered.
+  </p>
+</section>
+<div class="page-break"></div>
+
+<!-- ============================================================
+     SECTION 7: Next Steps
+     ============================================================ -->
+<section class="cta-section large-text">
+  <h2>Next Steps</h2>
+
+  <p style="font-size:16pt; margin-bottom:1.2em;">
+    Thank you for reading this far.<br>
+    I've covered the overview and key challenges,<br>
+    but prompts, parameters, and templates remain.
+  </p>
+
+  <h3 style="text-align:center; color:var(--accent); margin-top:1em;">What's in the Paid Course</h3>
+
+  <ul class="paid-content-list">
+    <li>Runway Gen-4 Scene Prompts — ~62 total<br><span class="li-sub">Full English prompts + design rationale for every scene</span></li>
+    <li>LoRA Training Parameter Log (v1–v5)<br><span class="li-sub">What changed each run and why</span></li>
+    <li>BGM Prompts — All 12 Tracks<br><span class="li-sub">SUNO / Udio / ElevenLabs comparison included</span></li>
+    <li>Hailuo Audio Voice Settings — 7 Characters<br><span class="li-sub">Pitch, volume, and emotion configuration</span></li>
+    <li>ElevenLabs SFX Prompts — All 24<br><span class="li-sub">Selection rationale + failure analysis of 7 rejected attempts</span></li>
+    <li>Before/After Images — Full Set + Technical Notes<br><span class="li-sub">Includes 4 cases not covered in this document</span></li>
+    <li>Long-Form Management Templates<br><span class="li-sub">SRT timecode calculator + forward-reverse design examples</span></li>
+  </ul>
+
+  <div class="cta-closing">
+    Details will be sent to<br>the email address you registered.
+  </div>
+
+  <p style="margin-top:1.5em; font-size:12pt; color:var(--text-muted);">
+    Koki Yoshikawa — Kyoto University, Faculty of Science<br>
+    HALUCINATION (2025) — Director, Writer, Producer
+  </p>
+</section>
+
+</body>
+</html>
